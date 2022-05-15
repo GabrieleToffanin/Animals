@@ -38,7 +38,8 @@ namespace Animals.Api.Controllers
 
             return result ? Ok() : BadRequest();
         }
-
+        
+        //ToDo, improve the logic
         [HttpPost("/UpdateAnimal")]
         public async ValueTask<IActionResult> Update(int selectedId, [FromBody]AnimalDTO updatedContet)
         {
