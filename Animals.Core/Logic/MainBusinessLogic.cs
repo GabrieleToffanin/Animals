@@ -13,10 +13,13 @@ namespace Animals.Core.Logic
     {
         private readonly IRepository _repo;
         private readonly IMappingService _mapService;
+        private List<AnimalDTO> _currentAnimals;
         public MainBusinessLogic(IRepository repo, IMappingService mapService)
         {
             _repo = repo;
+
             _mapService = mapService;
+            _currentAnimals = new List<AnimalDTO>();
         }
         public async ValueTask<bool> Create(AnimalDTO animal)
         {
@@ -29,10 +32,13 @@ namespace Animals.Core.Logic
             return await _repo.Delete(id);
         }
 
-        public async ValueTask<IEnumerable<Animal>> GetAllAnimals()
+        public async ValueTask<IEnumerable<AnimalDTO>> GetAllAnimals()
         {
-            var animalList = await _repo.FetchAll();
-            return animalList.Any() ? animalList : Enumerable.Empty<Animal>();
+
+            foreach (var elem in await _repo.FetchAll())
+                _currentAnimals.Add(_mapService.MapFrom<Animal, AnimalDTO>(elem));
+
+            return _currentAnimals.Any() ? _currentAnimals : Enumerable.Empty<AnimalDTO>();
         }
 
         public async ValueTask<bool> Update(int id, AnimalDTO animal)

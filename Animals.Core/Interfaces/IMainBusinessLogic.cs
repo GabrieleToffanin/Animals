@@ -10,7 +10,7 @@ namespace Animals.Core.Interfaces
 {
     public interface IMainBusinessLogic
     {
-        ValueTask<IEnumerable<Animal>> GetAllAnimals();
+        ValueTask<IEnumerable<AnimalDTO>> GetAllAnimals();
         ValueTask<bool> Delete(int id);
         ValueTask<bool> Create(AnimalDTO animal);
         ValueTask<bool> Update(int id, AnimalDTO animal);

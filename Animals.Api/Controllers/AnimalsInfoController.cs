@@ -18,7 +18,7 @@ namespace Animals.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Animal>>> FetchAll()
+        public async Task<ActionResult<IEnumerable<AnimalDTO>>> FetchAll()
         {
             return Ok(await _animals.GetAllAnimals());
         }
