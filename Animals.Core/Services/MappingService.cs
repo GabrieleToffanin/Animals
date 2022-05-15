@@ -19,10 +19,20 @@ namespace Animals.Core.Services
 
         private MapperConfiguration ConfigureMapper()
             => new MapperConfiguration(
-                cfg => {
+                cfg =>
+                {
                     cfg.CreateMap<AnimalDTO, Animal>();
                     cfg.CreateMap<Animal, AnimalDTO>();
-                    }  );
+                    cfg.CreateMap<Specie, Animal>()
+                        .ForMember(cfg => cfg.Specie, opt => opt.MapFrom(map => map.SpecieName));
+                    cfg.CreateMap<Animal, Specie>()
+                    .ForMember(cfg => cfg.SpecieName, opt => 
+                    {
+                        opt.MapFrom(map => map.Specie);
+                    });
+                });
+        
+                
 
         public TAsked MapFrom<TStart, TAsked>(TStart item) where TStart : class
                                                            where TAsked : class

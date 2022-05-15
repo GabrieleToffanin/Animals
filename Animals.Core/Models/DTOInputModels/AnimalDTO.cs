@@ -13,5 +13,9 @@ namespace Animals.Core.Models.DTOInputModels
         [Required]
         [Column("Name", Order = 2, TypeName = "nvarchar(80)")]
         public string? Name { get; set; }
+
+        [ForeignKey("Specie_Id")]
+        [Column("Specie", Order = 3, TypeName = "nvarchar(100)")]
+        public string Specie { get; set; }
     }
 }

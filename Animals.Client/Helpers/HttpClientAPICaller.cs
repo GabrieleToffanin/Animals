@@ -11,8 +11,6 @@ namespace Animals.Client.Helpers
     public class HttpClientAPICaller : IAPICallerService
     {
 
-
-
         public async Task<string> FetchAnimals()
         {
 
