@@ -21,28 +21,29 @@ namespace Animals.Core.Logic
         public async ValueTask<bool> Create(AnimalDTO animal)
         {
             var wantedData = _mapService.MapFrom<AnimalDTO, Animal>(animal);
-            if (await _repo.Create(wantedData))
-                return true;
-
-            return false;
+            return await _repo.Create(wantedData);
         }
 
         public async ValueTask<bool> Delete(int id)
         {
-            if (await _repo.Delete(id))
-                return true;
-
-            return false;
-
+            return await _repo.Delete(id);
         }
 
         public async ValueTask<IEnumerable<Animal>> GetAllAnimals()
         {
             var animalList = await _repo.FetchAll();
-            if (animalList.Any())
-                return animalList;
+            return animalList.Any() ? animalList : Enumerable.Empty<Animal>();
+        }
 
-            return null;
+        public async ValueTask<bool> Update(int id, AnimalDTO animal)
+        {
+            var toModifyAnimal = await _repo.GetById(id);
+            if (toModifyAnimal is null)
+                return false;
+
+
+            toModifyAnimal = _mapService.MapFrom<AnimalDTO, Animal>(animal);
+            return await _repo.Update(id, toModifyAnimal);
         }
     }
 }

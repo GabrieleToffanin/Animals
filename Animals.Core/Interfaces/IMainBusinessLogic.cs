@@ -13,5 +13,6 @@ namespace Animals.Core.Interfaces
         ValueTask<IEnumerable<Animal>> GetAllAnimals();
         ValueTask<bool> Delete(int id);
         ValueTask<bool> Create(AnimalDTO animal);
+        ValueTask<bool> Update(int id, AnimalDTO animal);
     }
 }

@@ -47,5 +47,30 @@ namespace Animals.EF.Data
 
             return false;
         }
+
+        public async ValueTask<bool> Update(int id, Animal animal)
+        {
+            await UpdateAnimalAsync(id, animal);
+            return true;
+        }
+
+        public async ValueTask<Animal?> GetById(int id)
+        {
+            return _context.Animals
+                   .Where(x => x.Id == id)
+                   .Select(x => x).FirstOrDefault() ?? null;
+        }
+
+        private async ValueTask UpdateAnimalAsync(int id, Animal animal)
+        {
+            var selected = await _context.Animals
+                .Where(item => item.Id == id).FirstOrDefaultAsync();
+
+            selected.Name = animal.Name;
+
+            _context.Update(selected);
+
+            await _context.SaveChangesAsync();
+        }
     }
 }
