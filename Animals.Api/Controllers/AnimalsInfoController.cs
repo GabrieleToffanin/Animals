@@ -23,7 +23,7 @@ namespace Animals.Api.Controllers
             return Ok(await _animals.GetAllAnimals());
         }
 
-        [HttpPost("/Create")]
+        [HttpPost("/CreateAnimal")]
         public async ValueTask<IActionResult> Create([FromBody]AnimalDTO animal)
         {
             var result = await _animals.Create(animal);
@@ -31,7 +31,7 @@ namespace Animals.Api.Controllers
             return result ? Ok() : BadRequest();
         }
 
-        [HttpDelete("/Delete")]
+        [HttpDelete("/DeleteAnimal")]
         public async ValueTask<IActionResult> Delete([FromBody]int Id)
         {
             var result = await _animals.Delete(Id);
