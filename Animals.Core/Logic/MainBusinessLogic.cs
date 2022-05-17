@@ -46,7 +46,8 @@ namespace Animals.Core.Logic
         }
         //Actually leaving Animal.Id property into AnimalDTO escapes
         //the fact of providing the id via Controller Endpoint 
-        //and leads to a cleaner implementation
+        //and leads to a cleaner implementation (idea obfuscate ID directly 
+        //in the UWP.Client UI, having the ID in the models for the deserialization)
         public async ValueTask<bool> Update(int id, AnimalDTO animal)
         {
             var toModifyAnimal = await _repo.GetById(id);
