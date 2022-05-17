@@ -24,7 +24,10 @@
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="Models:Animal">
-                    <TextBlock Text="{Binding Name}"/>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Name}"/>
+                        <TextBlock Text="{Binding Specie}"/>
+                    </StackPanel>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
