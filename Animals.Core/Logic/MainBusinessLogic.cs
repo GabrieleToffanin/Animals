@@ -37,6 +37,9 @@ namespace Animals.Core.Logic
 
             foreach (var elem in await _repo.FetchAll())
                 _currentAnimals.Add(_mapService.MapFrom<Animal, AnimalDTO>(elem));
+                //Possibly doing :
+                //yield return _mapService.MapFrom<Animal, AnimalDTO>(elem);
+                //Would be better, allows to remove the _currentAnimals temp list.
 
             return _currentAnimals.Any() ? _currentAnimals : Enumerable.Empty<AnimalDTO>();
         }
