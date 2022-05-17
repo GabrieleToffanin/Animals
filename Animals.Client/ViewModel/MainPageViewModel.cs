@@ -13,7 +13,7 @@ namespace Animals.Client.ViewModel
 {
     public sealed class MainPageViewModel : ObservableRecipient
     {
-        public IAsyncRelayCommand _animalLoaderCommand;
+        public readonly IAsyncRelayCommand _animalLoaderCommand;
         private readonly IJsonSerializer _serializer;
 
         public MainPageViewModel(IJsonSerializer serializer)
