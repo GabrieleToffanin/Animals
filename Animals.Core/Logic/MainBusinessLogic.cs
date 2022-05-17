@@ -46,7 +46,7 @@ namespace Animals.Core.Logic
         }
         //Actually leaving Animal.Id property into AnimalDTO escapes
         //the "problem" of providing the id via Controller Endpoint 
-        //and leads to a cleaner implementation (idea obfuscate ID directly 
+        //and leads to a cleaner implementation (idea! : obfuscate ID directly 
         //in the UWP.Client UI, having the ID in the models for the deserialization, that would give me 
         //a direct Bind to the Animal.Id provided by DB)
         public async ValueTask<bool> Update(int id, AnimalDTO animal)
