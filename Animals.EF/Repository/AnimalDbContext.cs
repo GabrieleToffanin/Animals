@@ -12,5 +12,19 @@ namespace Animals.EF.Repository
         {
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Specie>()
+                .HasMany(c => c.Animals)
+                .WithOne(c => c.OwnSpecie);
+
+            
+
+            modelBuilder.Entity<Animal>()
+                .Ignore(x => x.OwnSpecie);
+                
+        }
+
+
     }
 }

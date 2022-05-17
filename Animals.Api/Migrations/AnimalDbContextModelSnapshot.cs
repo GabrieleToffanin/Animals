@@ -31,16 +31,7 @@ namespace Animals.Api.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(80)")
-                        .HasColumnName("Name")
-                        .HasColumnOrder(2);
-
-                    b.Property<string>("Specie")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnName("Specie")
-                        .HasColumnOrder(3);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("Specie_Id")
                         .HasColumnType("int");

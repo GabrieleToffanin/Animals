@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Animals.Core.Interfaces
 {
-    public interface IRepository
+    public interface IRepository<TObject> where TObject : class 
     {
-        ValueTask<IEnumerable<Animal>> FetchAll();
-        ValueTask<Animal> GetById(int id);
-        ValueTask<bool> Create(Animal animal);
+        ValueTask<IQueryable<TObject>> FetchAll();
+        ValueTask<TObject> GetById(int id);
+        ValueTask<bool> Create(TObject animal);
         ValueTask<bool> Delete(int id);
-        ValueTask<bool> Update(int id, Animal animal);
+        ValueTask<bool> Update(TObject animal);
     }
 }

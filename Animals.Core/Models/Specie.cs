@@ -11,10 +11,16 @@ namespace Animals.Core.Models
     [Table("Specie")]
     public class Specie
     {
+        public Specie()
+        {
+            Animals = new HashSet<Animal>();
+        }
+
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Specie_Id { get; set; }
+        
         public string SpecieName { get; set; }
-        public ICollection<Animal> Animals { get; set; }
+        
+        public virtual ICollection<Animal> Animals { get; set; }
     }
 }

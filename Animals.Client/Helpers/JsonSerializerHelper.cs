@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace Animals.Client.Helpers
 {
+    //IAPICallerService will be put into ViewModel, now it's present here just for testing,
+    //FetchAnimals() : ValueTask<IEnumerable<Animal>> will be translated into a Deserialize generic method 
+    //and it will have only the responsibility of Deserializing string retrieved from FetchAnimals():string method in 
+    //IAPICallerService 
     public class JsonSerializerHelper : IJsonSerializer
     {
         

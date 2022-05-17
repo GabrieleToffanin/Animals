@@ -23,12 +23,14 @@ namespace Animals.Core.Services
                 {
                     cfg.CreateMap<AnimalDTO, Animal>();
                     cfg.CreateMap<Animal, AnimalDTO>();
+                    cfg.CreateMap<AnimalDTO, Specie>()
+                    .ForMember(cfg => cfg.SpecieName, opt => opt.MapFrom(map => map.Specie));
                     cfg.CreateMap<Specie, Animal>()
-                        .ForMember(cfg => cfg.Specie, opt => opt.MapFrom(map => map.SpecieName));
+                        .ForMember(cfg => cfg.OwnSpecie, opt => opt.MapFrom(map => map.SpecieName));
                     cfg.CreateMap<Animal, Specie>()
                     .ForMember(cfg => cfg.SpecieName, opt => 
                     {
-                        opt.MapFrom(map => map.Specie);
+                        opt.MapFrom(map => map.OwnSpecie);
                     });
                 });
         

@@ -10,13 +10,16 @@ namespace Animals.Client.Helpers
 {
     public class HttpClientAPICaller : IAPICallerService
     {
-
+        //Maybe put the baseApiUri into appsetting.json (?)
+        private readonly Uri baseApiUri = new Uri("https://localhost:7098");
+        
         public async Task<string> FetchAnimals()
         {
 
             using (var _httpClient = new HttpClient())
             {
-                var response = await _httpClient.GetAsync(new Uri("https://localhost:7098/AnimalsInfo"));
+                
+                var response = await _httpClient.GetAsync(new Uri(baseApiUri + "/AnimalsInfo"));
                 response.EnsureSuccessStatusCode();
 
                 return await response.Content.ReadAsStringAsync();

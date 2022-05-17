@@ -13,7 +13,9 @@ namespace Animals.Client.ViewModel
 {
     public sealed class MainPageViewModel : ObservableRecipient
     {
-        public IAsyncRelayCommand _animalLoaderCommand;
+        public readonly IAsyncRelayCommand _animalLoaderCommand;
+        //Actually this service is violating S principle 
+        //see comment in Helpers/JSonSerializerHelper.cs
         private readonly IJsonSerializer _serializer;
 
         public MainPageViewModel(IJsonSerializer serializer)

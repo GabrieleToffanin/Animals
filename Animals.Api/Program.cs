@@ -1,5 +1,6 @@
 using Animals.Core.Interfaces;
 using Animals.Core.Logic;
+using Animals.Core.Models;
 using Animals.Core.Services;
 using Animals.EF.Data;
 using Animals.EF.Repository;
@@ -32,8 +33,10 @@ builder.Services.AddDbContext<AnimalDbContext>(
     migrationASM => migrationASM.MigrationsAssembly("Animals.Api")));
 
 builder.Services.AddScoped<IMappingService, MappingService>();
-builder.Services.AddScoped<IMainBusinessLogic, MainBusinessLogic>();
-builder.Services.AddScoped<IRepository, AnimalRepository>();
+builder.Services.AddScoped<IMainBusinessLogic, AnimalsBusinessLogic>();
+builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
+builder.Services.AddScoped<ISpecieRepository, SpecieRepository>();
+builder.Services.AddScoped<ISpecieBusinessLogic, SpeciesBusinessLogic>();
 
 
 

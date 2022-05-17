@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Animals.EF.Data
 {
-    public class AnimalRepository : IRepository
+    public class AnimalRepository : IAnimalRepository
     {
         private readonly AnimalDbContext _context;
         public AnimalRepository(AnimalDbContext context)
@@ -18,39 +18,52 @@ namespace Animals.EF.Data
             _context = context;
         }
 
-        public async ValueTask<IEnumerable<Animal>> FetchAll()
+        public async ValueTask<IQueryable<Animal>> FetchAll()
         {
-            var items = await _context.Animals.ToListAsync();
-
-            return items.AsQueryable();
+            return (await _context.Animals.ToListAsync()).AsQueryable();
         }
 
         public async ValueTask<bool> Create(Animal animal)
         {
+
+            
             await _context.AddAsync(animal);
+
             if(await _context.SaveChangesAsync() > 0)
                 return true;
+
 
             return false;
         }
 
         public async ValueTask<bool> Delete(int id)
         {
-            var animalToRemove = await _context.FindAsync(typeof(Animal), id);
+            var animalToRemove = await _context.FindAsync(typeof(Animal), id) as Animal;
 
             if (animalToRemove is not null)
             {
-                _context.Remove(animalToRemove);
+                _context.Remove<Animal>(animalToRemove);
                 await _context.SaveChangesAsync();
                 return true;
             }
 
             return false;
         }
-
-        public async ValueTask<bool> Update(int id, Animal animal)
+        /// <summary>
+        /// Updates with new animal Data recieved from Client
+        /// </summary>
+        /// <param name="animal">Current animal with already modified data</param>
+        /// <returns>True if update success, otherwise false</returns>
+        public async ValueTask<bool> Update(Animal animal)
         {
-            await UpdateAnimalAsync(id, animal);
+            var result = _context.Animals.Select(b => b.Id == animal.Id).FirstOrDefault();
+            if (!result)
+                return false;
+
+            _context.Animals.Update(animal);
+            _context.Entry(animal).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
             return true;
         }
 
@@ -61,16 +74,6 @@ namespace Animals.EF.Data
                    .Select(x => x).FirstOrDefault() ?? null;
         }
 
-        private async ValueTask UpdateAnimalAsync(int id, Animal animal)
-        {
-            var selected = await _context.Animals
-                .Where(item => item.Id == id).FirstOrDefaultAsync();
-
-            selected.Name = animal.Name;
-
-            _context.Update(selected);
-
-            await _context.SaveChangesAsync();
-        }
+        
     }
 }
