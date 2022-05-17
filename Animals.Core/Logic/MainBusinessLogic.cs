@@ -13,6 +13,7 @@ namespace Animals.Core.Logic
     {
         private readonly IRepository _repo;
         private readonly IMappingService _mapService;
+        //See comment at GetAllAnimals
         private List<AnimalDTO> _currentAnimals;
         public MainBusinessLogic(IRepository repo, IMappingService mapService)
         {
