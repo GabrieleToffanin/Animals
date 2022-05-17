@@ -44,7 +44,9 @@ namespace Animals.Core.Logic
 
             return _currentAnimals.Any() ? _currentAnimals : Enumerable.Empty<AnimalDTO>();
         }
-
+        //Actually leaving Animal.Id property into AnimalDTO escapes
+        //the fact of providing the id via Controller Endpoint 
+        //and leads to a cleaner implementation
         public async ValueTask<bool> Update(int id, AnimalDTO animal)
         {
             var toModifyAnimal = await _repo.GetById(id);
