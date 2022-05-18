@@ -9,6 +9,7 @@ namespace Animals.Core.Interfaces
 {
     public interface ISpecieRepository : IRepository<Specie>
     {
-        ValueTask<Specie> GetBySpecieName(string specieName);
+
+        ValueTask<IEnumerable<Specie>> GetAnimalsFromSpecieName(Func<Specie, bool> filter);
     }
 }

@@ -15,10 +15,17 @@ namespace Animals.Api.Controllers
         {
             _context = context;
         }
+
         [HttpGet]
         public async ValueTask<ActionResult<IAsyncEnumerable<SpecieDTO>>> Index()
         {
             return Ok(_context.FetchSpecies());
+        }
+
+        [HttpGet("/GetAnimalsBySpecieName/{specieName}")]
+        public async ValueTask<ActionResult<IAsyncEnumerable<SpecieDTO>>> GetAnimalsBySpecieName(string specieName)
+        {
+            return Ok(_context.FetchSpeciesWithFilter((x => x.SpecieName == specieName)));
         }
     }
 }

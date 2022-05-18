@@ -57,5 +57,16 @@ namespace Animals.EF.Data
 
         public async ValueTask<Specie> GetBySpecieName(string specieName)
             => await _context.Species.Where(x => x.SpecieName == specieName).FirstOrDefaultAsync();
+
+        public async ValueTask<IEnumerable<Specie>> GetAnimalsFromSpecieName(Func<Specie, bool> filter)
+        {
+            return (await _context.Species.Include(p => p.Animals)
+                                          .AsNoTracking()
+                                          .ToListAsync())
+                                          .Where(filter)
+                                          .AsQueryable();
+                                   
+                                   
+        }
     }
 }

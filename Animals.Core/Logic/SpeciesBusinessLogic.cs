@@ -19,20 +19,17 @@ namespace Animals.Core.Logic
             _specieRepository = repository;
             _mappingService = mappingService;
         }
-
-        //No sense method, the creation of the specie related to the new Animal Entity should be
-        //automatic.
-        public async ValueTask CreateSpecieFromAnimal(AnimalDTO specieFromAnimal)
-        {
-            var currentSpecieFromAnimal = _mappingService.MapFrom<AnimalDTO, Specie>(specieFromAnimal);
-            if (await _specieRepository.GetBySpecieName(currentSpecieFromAnimal.SpecieName) is null)
-                await _specieRepository.Create(currentSpecieFromAnimal);
-        }
-
         public async IAsyncEnumerable<SpecieDTO> FetchSpecies()
         {
             foreach (var item in await _specieRepository.FetchAll())
                 yield return _mappingService.MapFrom<Specie, SpecieDTO>(item);
+        }
+
+        public async IAsyncEnumerable<SpecieDTO> FetchSpeciesWithFilter(Func<Specie, bool> filter)
+        {
+            foreach (var item in await _specieRepository.GetAnimalsFromSpecieName(filter))
+                yield return _mappingService.MapFrom<Specie, SpecieDTO>(item);
+                
         }
     }
 }

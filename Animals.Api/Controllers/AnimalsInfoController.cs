@@ -35,10 +35,11 @@ namespace Animals.Api.Controllers
             return result ? Ok() : BadRequest();
         }
 
-        [HttpDelete("/DeleteAnimal")]
-        public async ValueTask<IActionResult> Delete([FromBody]int Id)
+        [HttpDelete("/DeleteAnimal/{id?}")]
+        public async ValueTask<IActionResult> Delete(int id)
         {
-            var result = await _animals.Delete(Id);
+            
+            var result = await _animals.Delete(id);
 
             return result ? Ok() : BadRequest();
         }

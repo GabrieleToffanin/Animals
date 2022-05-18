@@ -11,6 +11,6 @@ namespace Animals.Core.Interfaces
     public interface ISpecieBusinessLogic
     {
         IAsyncEnumerable<SpecieDTO> FetchSpecies();
-        ValueTask CreateSpecieFromAnimal (AnimalDTO specieFromAnimal);
+        IAsyncEnumerable<SpecieDTO> FetchSpeciesWithFilter(Func<Specie, bool> filter); 
     }
 }
