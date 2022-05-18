@@ -1,9 +1,12 @@
 using Animals.Core.Interfaces;
 using Animals.Core.Logic;
 using Animals.Core.Models;
+using Animals.Core.Models.User;
 using Animals.Core.Services;
 using Animals.EF.Data;
+using Animals.EF.Data.Seeding;
 using Animals.EF.Repository;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +24,8 @@ builder.Services.AddCors(options =>
         });
 });
 
+
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -28,8 +33,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AnimalDbContext>(
     options =>
-    options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Test", 
-    migrationASM => migrationASM.MigrationsAssembly("Animals.Api")), ServiceLifetime.Scoped);
+    options.UseSqlServer(builder.Configuration["ConnectionStrings:LocalSqlServer"],
+    migrationASM => migrationASM.MigrationsAssembly("Animals.Api")), ServiceLifetime.Scoped); 
 
 builder.Services.AddScoped<IMappingService, MappingService>();
 builder.Services.AddScoped<IMainBusinessLogic, AnimalsBusinessLogic>();
@@ -57,8 +62,26 @@ app.UseCors(builder =>
     .AllowAnyOrigin();
 });
 
-app.UseHttpsRedirection();
+using(var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var loggerFactory = services.GetRequiredService<ILoggerFactory>();
+    try
+    {
+        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        await ApplicationDbContextSeed.SeedEssentialAsync(userManager, roleManager);
 
+    }
+    catch(Exception ex)
+    {
+        var logger = loggerFactory.CreateLogger<Program>();
+        logger.LogError(ex, "An error occured seeding the DB.");
+    }
+}
+
+app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllerRoute(
     name: "Default",

@@ -1,5 +1,5 @@
 ﻿using Animals.Core.Interfaces;
-using Animals.Core.Models;
+using Animals.Core.Models.Animals;
 using Animals.Core.Models.DTOInputModels;
 using Animals.EF.Repository;
 using Microsoft.AspNetCore.Mvc;
@@ -12,12 +12,12 @@ namespace Animals.Api.Controllers
     public class AnimalsInfoController : ControllerBase
     {
         private readonly IMainBusinessLogic _animals;
-        private readonly ISpecieBusinessLogic _species;
+        private readonly IUserService _userService;
 
-        public AnimalsInfoController(IMainBusinessLogic animals, ISpecieBusinessLogic species)
+        public AnimalsInfoController(IMainBusinessLogic animals, IUserService userService)
         {
             _animals = animals;
-            _species = species;
+            _userService = userService;
         }
 
         [HttpGet]

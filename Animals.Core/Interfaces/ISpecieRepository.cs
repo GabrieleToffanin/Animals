@@ -1,4 +1,4 @@
-﻿using Animals.Core.Models;
+﻿using Animals.Core.Models.Animals;
 using System;
 using System.Collections.Generic;
 using System.Linq;

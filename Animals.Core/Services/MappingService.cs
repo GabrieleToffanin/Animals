@@ -1,6 +1,6 @@
 ﻿using Animals.Core.Exceptions;
 using Animals.Core.Interfaces;
-using Animals.Core.Models;
+using Animals.Core.Models.Animals;
 using Animals.Core.Models.DTOInputModels;
 using AutoMapper;
 using System;

@@ -1,5 +1,5 @@
 ﻿using Animals.Core.Interfaces;
-using Animals.Core.Models;
+using Animals.Core.Models.Animals;
 using Animals.Core.Models.DTOInputModels;
 using System;
 using System.Collections.Generic;
