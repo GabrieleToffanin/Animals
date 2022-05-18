@@ -46,9 +46,12 @@ namespace Animals.Api.Controllers
         
         //ToDo, improve the logic, may be a good idea leaving the Animal.Id prop into the DTO for cleaner implementation ?
         [HttpPost("/UpdateAnimal")]
-        public async ValueTask<IActionResult> Update([FromBody]Animal updatedContet)
+        public async ValueTask<IActionResult> Update([FromBody]AnimalDTO updatedContet)
         {
-            return await _animals.Update(updatedContet) ? Ok() : BadRequest();
+            await _animals.Delete(updatedContet.Id);
+            await _animals.Create(updatedContet);
+
+            return Ok();
         }
 
         

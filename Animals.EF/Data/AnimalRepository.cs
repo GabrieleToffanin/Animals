@@ -35,6 +35,8 @@ namespace Animals.EF.Data
                                         .Where(x => x.SpecieName.Equals(animal.Specie.SpecieName))
                                         .FirstOrDefaultAsync()
                                         .ConfigureAwait(false);
+            if (animal.Id != 0) animal.Id = 0;
+
             if (foundSpecie != null)
             {
                 animal.Specie = foundSpecie;
