@@ -22,11 +22,13 @@ namespace Animals.EF.Data
         {
             return (await _context.Animals.ToListAsync()).AsQueryable();
         }
-
+        
+        //There should happen the wizardry of the "AutoCreation" for the specie related
+        //to the entity if the specie does not exists already, otherwise add to the existing into the
+        //Animals:ICollection model property.
         public async ValueTask<bool> Create(Animal animal)
         {
 
-            
             await _context.AddAsync(animal);
 
             if(await _context.SaveChangesAsync() > 0)
@@ -71,7 +73,7 @@ namespace Animals.EF.Data
         {
             return _context.Animals
                    .Where(x => x.Id == id)
-                   .Select(x => x).FirstOrDefault() ?? null;
+                   .Select(x => x).FirstOrDefault();
         }
 
         
