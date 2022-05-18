@@ -21,7 +21,7 @@ namespace Animals.Api.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("Animals.Core.Models.Animal", b =>
+            modelBuilder.Entity("Animals.Core.Models.Animals.Animal", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -42,7 +42,7 @@ namespace Animals.Api.Migrations
                     b.ToTable("Animals");
                 });
 
-            modelBuilder.Entity("Animals.Core.Models.Specie", b =>
+            modelBuilder.Entity("Animals.Core.Models.Animals.Specie", b =>
                 {
                     b.Property<int>("SpecieId")
                         .ValueGeneratedOnAdd()
@@ -59,9 +59,9 @@ namespace Animals.Api.Migrations
                     b.ToTable("Specie");
                 });
 
-            modelBuilder.Entity("Animals.Core.Models.Animal", b =>
+            modelBuilder.Entity("Animals.Core.Models.Animals.Animal", b =>
                 {
-                    b.HasOne("Animals.Core.Models.Specie", "Specie")
+                    b.HasOne("Animals.Core.Models.Animals.Specie", "Specie")
                         .WithMany("Animals")
                         .HasForeignKey("SpecieId")
                         .OnDelete(DeleteBehavior.ClientCascade)
@@ -70,7 +70,7 @@ namespace Animals.Api.Migrations
                     b.Navigation("Specie");
                 });
 
-            modelBuilder.Entity("Animals.Core.Models.Specie", b =>
+            modelBuilder.Entity("Animals.Core.Models.Animals.Specie", b =>
                 {
                     b.Navigation("Animals");
                 });

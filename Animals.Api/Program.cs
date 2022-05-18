@@ -3,11 +3,16 @@ using Animals.Core.Logic;
 using Animals.Core.Models;
 using Animals.Core.Models.User;
 using Animals.Core.Services;
+using Animals.Core.Settings;
 using Animals.EF.Data;
 using Animals.EF.Data.Seeding;
 using Animals.EF.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,13 +39,48 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AnimalDbContext>(
     options =>
     options.UseSqlServer(builder.Configuration["ConnectionStrings:LocalSqlServer"],
-    migrationASM => migrationASM.MigrationsAssembly("Animals.Api")), ServiceLifetime.Scoped); 
+    migrationASM => migrationASM.MigrationsAssembly("Animals.Api")), 
+    ServiceLifetime.Scoped); 
+
+builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddScoped<IUserService, UserService>();
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration["ConnectionStrings:LocalSqlServer"],
+    migrationAsm => migrationAsm.MigrationsAssembly("Animals.Api")),
+    ServiceLifetime.Scoped);
 
 builder.Services.AddScoped<IMappingService, MappingService>();
 builder.Services.AddScoped<IMainBusinessLogic, AnimalsBusinessLogic>();
 builder.Services.AddScoped<IAnimalRepository, AnimalRepository>();
 builder.Services.AddScoped<ISpecieRepository, SpecieRepository>();
 builder.Services.AddScoped<ISpecieBusinessLogic, SpeciesBusinessLogic>();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+  .AddJwtBearer(o =>
+{
+    o.RequireHttpsMetadata = false;
+    o.SaveToken = false;
+    o.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuerSigningKey = true,
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ClockSkew = TimeSpan.Zero,
+
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        ValidAudience = builder.Configuration["JWT:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"]))
+    };
+});
+
 
 
 
@@ -62,6 +102,8 @@ app.UseCors(builder =>
     .AllowAnyOrigin();
 });
 
+
+
 using(var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -70,7 +112,7 @@ using(var scope = app.Services.CreateScope())
     {
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-        await ApplicationDbContextSeed.SeedEssentialAsync(userManager, roleManager);
+        await ApplicationDbContextSeed.SeedEssentialsAsync(userManager, roleManager);
 
     }
     catch(Exception ex)

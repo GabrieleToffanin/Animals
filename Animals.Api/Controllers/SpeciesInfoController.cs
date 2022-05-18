@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Animals.Api.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class SpeciesInfoController : ControllerBase
     {
         private readonly ISpecieBusinessLogic _context;
