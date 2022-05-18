@@ -20,6 +20,8 @@ namespace Animals.Core.Logic
             _mappingService = mappingService;
         }
 
+        //No sense method, the creation of the specie related to the new Animal Entity should be
+        //automatic.
         public async ValueTask CreateSpecieFromAnimal(AnimalDTO specieFromAnimal)
         {
             var currentSpecieFromAnimal = _mappingService.MapFrom<AnimalDTO, Specie>(specieFromAnimal);
