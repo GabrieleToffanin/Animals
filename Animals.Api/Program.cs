@@ -30,7 +30,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AnimalDbContext>(
     options =>
     options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=Test", 
-    migrationASM => migrationASM.MigrationsAssembly("Animals.Api")));
+    migrationASM => migrationASM.MigrationsAssembly("Animals.Api")), ServiceLifetime.Scoped);
 
 builder.Services.AddScoped<IMappingService, MappingService>();
 builder.Services.AddScoped<IMainBusinessLogic, AnimalsBusinessLogic>();

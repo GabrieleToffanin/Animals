@@ -1,5 +1,6 @@
 ﻿using Animals.Core.Interfaces;
 using Animals.Core.Models;
+using Animals.Core.Models.DTOInputModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,10 +16,9 @@ namespace Animals.Api.Controllers
             _context = context;
         }
         [HttpGet]
-        public async ValueTask<IQueryable<Specie>> Index()
+        public async ValueTask<ActionResult<IAsyncEnumerable<SpecieDTO>>> Index()
         {
-            var species = await _context.FetchSpecies();
-            return species;
+            return Ok(_context.FetchSpecies());
         }
     }
 }

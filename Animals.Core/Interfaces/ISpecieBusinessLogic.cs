@@ -10,7 +10,7 @@ namespace Animals.Core.Interfaces
 {
     public interface ISpecieBusinessLogic
     {
-        ValueTask<IQueryable<Specie>> FetchSpecies();
+        IAsyncEnumerable<SpecieDTO> FetchSpecies();
         ValueTask CreateSpecieFromAnimal (AnimalDTO specieFromAnimal);
     }
 }

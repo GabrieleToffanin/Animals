@@ -30,17 +30,26 @@ namespace Animals.Core.Services
                     cfg.CreateMap<Specie, Animal>()
                         .ForMember(cfg => cfg.Specie, opt => opt.MapFrom(map => map.SpecieName));
                     cfg.CreateMap<Animal, Specie>()
-                    .ForMember(cfg => cfg.SpecieName, opt => 
-                    {
-                        opt.MapFrom(map => map.Specie);
-                    });
+                        .ForMember(cfg => cfg.SpecieName, opt =>
+                        {
+                            opt.MapFrom(map => map.Specie);
+                        });
+                    cfg.CreateMap<Specie, SpecieDTO>()
+                        .ForMember(cfg => cfg.Animals, opt => opt.Ignore())
+                        .AfterMap((src, dest, rc) =>
+                        {
+                            foreach (var animal in src.Animals)
+                            {
+                                dest.Animals.Add(animal?.Name);
+                            }
+                        });
                 });
-        
-                
+
+
 
         public TAsked MapFrom<TStart, TAsked>(TStart item) where TStart : class
                                                            where TAsked : class
             => _mapper?.Map<TAsked>(item) ?? throw new UnableToPerfomMappingException("Provided data has no mapping configuration, or bad data provided");
-        
+
     }
 }

@@ -29,9 +29,10 @@ namespace Animals.Core.Logic
                 await _specieRepository.Create(currentSpecieFromAnimal);
         }
 
-        public async ValueTask<IQueryable<Specie>> FetchSpecies()
+        public async IAsyncEnumerable<SpecieDTO> FetchSpecies()
         {
-            return await _specieRepository.FetchAll();
+            foreach (var item in await _specieRepository.FetchAll())
+                yield return _mappingService.MapFrom<Specie, SpecieDTO>(item);
         }
     }
 }

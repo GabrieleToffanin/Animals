@@ -31,12 +31,18 @@ namespace Animals.EF.Data
         //Animals:ICollection model property.
         public async ValueTask<bool> Create(Animal animal)
         {
+            var foundSpecie = await _context.Species
+                                        .Where(x => x.SpecieName.Equals(animal.Specie.SpecieName))
+                                        .FirstOrDefaultAsync()
+                                        .ConfigureAwait(false);
+            if (foundSpecie != null)
+            {
+                animal.Specie = foundSpecie;
+            }
 
             await _context.AddAsync(animal);
-
-            if(await _context.SaveChangesAsync() > 0)
+            if (await _context.SaveChangesAsync().ConfigureAwait(false) >= 0)
                 return true;
-
 
             return false;
         }

@@ -34,7 +34,7 @@ namespace Animals.EF.Data
 
         public async ValueTask<IQueryable<Specie>> FetchAll()
         {
-            return (await _context.Species.ToListAsync()).AsQueryable();
+            return (await _context.Species.Include(x => x.Animals).AsNoTracking().ToListAsync()).AsQueryable();
         }
 
         public async ValueTask<Specie?> GetById(int id)

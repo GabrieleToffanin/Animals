@@ -16,7 +16,8 @@ namespace Animals.EF.Repository
         {
             modelBuilder.Entity<Specie>()
                 .HasMany(c => c.Animals)
-                .WithOne(c => c.Specie);
+                .WithOne(c => c.Specie)
+                .OnDelete(DeleteBehavior.ClientCascade);
 
 
 
