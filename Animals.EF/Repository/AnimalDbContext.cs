@@ -16,12 +16,14 @@ namespace Animals.EF.Repository
         {
             modelBuilder.Entity<Specie>()
                 .HasMany(c => c.Animals)
-                .WithOne(c => c.OwnSpecie);
+                .WithOne(c => c.Specie);
 
-            
+
 
             modelBuilder.Entity<Animal>()
-                .Ignore(x => x.OwnSpecie);
+                .HasOne(c => c.Specie)
+                .WithMany(c => c.Animals)
+                .HasForeignKey(c => c.SpecieId);
                 
         }
 

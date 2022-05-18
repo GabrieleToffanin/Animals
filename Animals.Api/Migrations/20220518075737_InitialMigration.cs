@@ -12,14 +12,13 @@ namespace Animals.Api.Migrations
                 name: "Specie",
                 columns: table => new
                 {
-                    Specie_Id = table.Column<int>(type: "int", nullable: false)
+                    SpecieId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SpecieName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Specie = table.Column<int>(type: "int", nullable: false)
+                    SpecieName = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Specie", x => x.Specie_Id);
+                    table.PrimaryKey("PK_Specie", x => x.SpecieId);
                 });
 
             migrationBuilder.CreateTable(
@@ -29,23 +28,23 @@ namespace Animals.Api.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Specie = table.Column<int>(type: "int", nullable: false)
+                    SpecieId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Animals", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Animals_Specie_Specie",
-                        column: x => x.Specie,
+                        name: "FK_Animals_Specie_SpecieId",
+                        column: x => x.SpecieId,
                         principalTable: "Specie",
-                        principalColumn: "Specie_Id",
+                        principalColumn: "SpecieId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Animals_Specie",
+                name: "IX_Animals_SpecieId",
                 table: "Animals",
-                column: "Specie");
+                column: "SpecieId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

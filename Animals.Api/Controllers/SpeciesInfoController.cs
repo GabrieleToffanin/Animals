@@ -18,10 +18,7 @@ namespace Animals.Api.Controllers
         public async ValueTask<IQueryable<Specie>> Index()
         {
             var species = await _context.FetchSpecies();
-
-            var animalsIncluded = species.Include(x => x.Animals).Cast<Specie>();
-
-            return animalsIncluded;
+            return species;
         }
     }
 }

@@ -3,6 +3,7 @@ using Animals.Core.Models;
 using Animals.Core.Models.DTOInputModels;
 using Animals.EF.Repository;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Animals.Api.Controllers
 {
@@ -20,15 +21,15 @@ namespace Animals.Api.Controllers
         }
 
         [HttpGet]
-        public async ValueTask<ActionResult<IEnumerable<AnimalDTO>>> FetchAll()
+        public async ValueTask<ActionResult<IAsyncEnumerable<Animal>>> FetchAll()
         {
-            return Ok(await _animals.GetAllAnimals());
+            return Ok(_animals.GetAllAnimals());
         }
 
         [HttpPost("/CreateAnimal")]
         public async ValueTask<IActionResult> Create([FromBody]AnimalDTO animal)
         {
-            await _species.CreateSpecieFromAnimal(animal);
+            //await _species.CreateSpecieFromAnimal(animal);
             var result = await _animals.Create(animal);
 
             return result ? Ok() : BadRequest();

@@ -21,16 +21,18 @@ namespace Animals.Core.Services
             => new MapperConfiguration(
                 cfg =>
                 {
-                    cfg.CreateMap<AnimalDTO, Animal>();
-                    cfg.CreateMap<Animal, AnimalDTO>();
+                    cfg.CreateMap<AnimalDTO, Animal>()
+                        .ForMember(member => member.Specie, opt => opt.MapFrom(x => x));
+                    cfg.CreateMap<Animal, AnimalDTO>()
+                        .ForMember(member => member.Specie, opt => opt.MapFrom(x => x.Specie.SpecieName));
                     cfg.CreateMap<AnimalDTO, Specie>()
-                    .ForMember(cfg => cfg.SpecieName, opt => opt.MapFrom(map => map.Specie));
+                        .ForMember(cfg => cfg.SpecieName, opt => opt.MapFrom(map => map.Specie));
                     cfg.CreateMap<Specie, Animal>()
-                        .ForMember(cfg => cfg.OwnSpecie, opt => opt.MapFrom(map => map.SpecieName));
+                        .ForMember(cfg => cfg.Specie, opt => opt.MapFrom(map => map.SpecieName));
                     cfg.CreateMap<Animal, Specie>()
                     .ForMember(cfg => cfg.SpecieName, opt => 
                     {
-                        opt.MapFrom(map => map.OwnSpecie);
+                        opt.MapFrom(map => map.Specie);
                     });
                 });
         

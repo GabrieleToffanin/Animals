@@ -39,13 +39,13 @@ namespace Animals.EF.Data
 
         public async ValueTask<Specie?> GetById(int id)
         {
-            return _context.Species.Where(x => x.Specie_Id == id)
+            return _context.Species.Where(x => x.SpecieId == id)
                                    .Select(x => x).FirstOrDefault();
         }
 
         public async ValueTask<bool> Update(Specie animal)
         {
-            var result = await _context.Species.Where(b => b.Specie_Id == animal.Specie_Id).FirstOrDefaultAsync();
+            var result = await _context.Species.Where(b => b.SpecieId == animal.SpecieId).FirstOrDefaultAsync();
             if (result == null)
                 return false;
             _context.Species.Update(result);

@@ -17,7 +17,7 @@ namespace Animals.Core.Models
         }
 
         [Key]
-        public int Specie_Id { get; set; }
+        public int SpecieId { get; set; }
         
         public string SpecieName { get; set; }
         

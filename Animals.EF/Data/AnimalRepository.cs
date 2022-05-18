@@ -20,7 +20,10 @@ namespace Animals.EF.Data
 
         public async ValueTask<IQueryable<Animal>> FetchAll()
         {
-            return (await _context.Animals.ToListAsync()).AsQueryable();
+            return (await _context.Animals
+                .Include(x=> x.Specie)
+                .ToListAsync())
+                .AsQueryable();
         }
         
         //There should happen the wizardry of the "AutoCreation" for the specie related

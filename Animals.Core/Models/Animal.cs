@@ -13,7 +13,7 @@ namespace Animals.Core.Models
         public string? Name { get; set; }
 
         
-        
-        public Specie OwnSpecie { get; set; }
+        public int SpecieId { get; set; }
+        public virtual Specie Specie { get; set; }
     }
 }

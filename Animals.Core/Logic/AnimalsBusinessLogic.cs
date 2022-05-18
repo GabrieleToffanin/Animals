@@ -41,10 +41,10 @@ namespace Animals.Core.Logic
             return await _animalRepo.Delete(id);
         }
 
-        public async ValueTask<IQueryable<Animal>> GetAllAnimals()
+        public async IAsyncEnumerable<AnimalDTO> GetAllAnimals()
         {
-            
-            return await _animalRepo.FetchAll();
+            foreach (var item in await _animalRepo.FetchAll())
+                yield return _mapService.MapFrom<Animal,AnimalDTO>(item);
         }
         //Actually leaving Animal.Id property into AnimalDTO escapes
         //the "problem" of providing the id via Controller Endpoint 
