@@ -17,7 +17,8 @@ namespace Animals.Core.Logic
 
 
 
-        //See comment at GetAllAnimals
+        //Actual Problem, Creating and Auto-Update of One To Many relationship
+        //with Specie(One) and Many(Animal), no clue atm.
 
         
         public AnimalsBusinessLogic(IAnimalRepository animalsRepo,
