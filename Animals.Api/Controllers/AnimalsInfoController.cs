@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Animals.Api.Controllers
 {
-    
+
     [ApiController]
     [Route("api/[controller]")]
     public class AnimalsInfoController : ControllerBase
@@ -21,17 +21,17 @@ namespace Animals.Api.Controllers
         }
 
         [HttpGet]
-        
+
         public async ValueTask<ActionResult<IAsyncEnumerable<Animal>>> FetchAll()
         {
             return Ok(_animals.GetAllAnimals());
         }
 
         [HttpPost("/CreateAnimal")]
-        //[Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator")]
         public async ValueTask<IActionResult> Create([FromBody]AnimalDTO animal)
         {
-            //await _species.CreateSpecieFromAnimal(animal);
+            
             var result = await _animals.Create(animal);
 
             return result ? Ok() : BadRequest();
