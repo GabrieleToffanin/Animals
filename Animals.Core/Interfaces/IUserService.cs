@@ -9,8 +9,8 @@ namespace Animals.Core.Interfaces
 {
     public interface IUserService
     {
-        ValueTask<string> RegisterUserAsync(RegisterModel model);
-        ValueTask<AuthenticationModel> GetTokenAsync(TokenRequestModel model);
-        ValueTask<string> AddRoleAsync(AddRoleModel model);
+        Task<string> RegisterUserAsync(RegisterModel model);
+        Task<AuthenticationModel> GetTokenAsync(TokenRequestModel model);
+        Task<string> AddRoleAsync(AddRoleModel model);
     }
 }

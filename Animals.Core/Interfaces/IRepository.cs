@@ -9,10 +9,10 @@ namespace Animals.Core.Interfaces
 {
     public interface IRepository<TObject> where TObject : class 
     {
-        ValueTask<IQueryable<TObject>> FetchAll();
-        ValueTask<TObject> GetById(int id);
-        ValueTask<bool> Create(TObject animal);
-        ValueTask<bool> Delete(int id);
-        ValueTask<bool> Update(TObject animal);
+        Task<IQueryable<TObject>> FetchAll();
+        Task<TObject> GetById(int id);
+        Task<bool> Create(TObject animal);
+        Task<bool> Delete(int id);
+        Task<bool> Update(TObject animal);
     }
 }

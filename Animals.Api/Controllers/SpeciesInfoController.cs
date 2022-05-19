@@ -19,14 +19,14 @@ namespace Animals.Api.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Administrator")]
-        public async ValueTask<ActionResult<IAsyncEnumerable<SpecieDTO>>> Index()
+        public async Task<ActionResult<IAsyncEnumerable<SpecieDTO>>> Index()
         {
             return Ok(_context.FetchSpecies());
         }
 
-        [HttpGet("/GetAnimalsBySpecieName/{specieName}")]
+        [HttpGet("{specieName}")]
         [Authorize(Roles = "Administrator")]
-        public async ValueTask<ActionResult<IAsyncEnumerable<SpecieDTO>>> GetAnimalsBySpecieName(string specieName)
+        public async Task<ActionResult<IAsyncEnumerable<SpecieDTO>>> GetAnimalsBySpecieName(string specieName)
         {
             return Ok(_context.FetchSpeciesWithFilter((x => x.SpecieName == specieName)));
         }

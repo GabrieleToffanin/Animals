@@ -18,7 +18,7 @@ namespace Animals.EF.Repository
             _context = context;
         }
 
-        public async ValueTask<IQueryable<Animal>> FetchAll()
+        public async Task<IQueryable<Animal>> FetchAll()
         {
             return (await _context.Animals
                 .Include(x => x.Specie)
@@ -29,7 +29,7 @@ namespace Animals.EF.Repository
         //There should happen the wizardry of the "AutoCreation" for the specie related
         //to the entity if the specie does not exists already, otherwise add to the existing into the
         //Animals:ICollection model property.
-        public async ValueTask<bool> Create(Animal animal)
+        public async Task<bool> Create(Animal animal)
         {
             var foundSpecie = await _context.Species
                                         .Where(x => x.SpecieName.Equals(animal.Specie.SpecieName))
@@ -49,7 +49,7 @@ namespace Animals.EF.Repository
             return false;
         }
 
-        public async ValueTask<bool> Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             var animalToRemove = await _context.FindAsync(typeof(Animal), id) as Animal;
 
@@ -67,7 +67,7 @@ namespace Animals.EF.Repository
         /// </summary>
         /// <param name="animal">Current animal with already modified data</param>
         /// <returns>True if update success, otherwise false</returns>
-        public async ValueTask<bool> Update(Animal animal)
+        public async Task<bool> Update(Animal animal)
         {
             var result = _context.Animals.Select(b => b.Id == animal.Id).FirstOrDefault();
             if (!result)
@@ -80,7 +80,7 @@ namespace Animals.EF.Repository
             return true;
         }
 
-        public async ValueTask<Animal?> GetById(int id)
+        public async Task<Animal?> GetById(int id)
         {
             return _context.Animals
                    .Where(x => x.Id == id)

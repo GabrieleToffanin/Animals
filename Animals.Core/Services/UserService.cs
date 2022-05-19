@@ -38,7 +38,7 @@ namespace Animals.Core.Services
         /// </summary>
         /// <param name="model">AddRoleModel request for Registered User</param>
         /// <returns>Operation Result Message</returns>
-        public async ValueTask<string> AddRoleAsync(AddRoleModel model)
+        public async Task<string> AddRoleAsync(AddRoleModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
             if(user == null)
@@ -69,7 +69,7 @@ namespace Animals.Core.Services
         /// </summary>
         /// <param name="model">Token Request Model, LoginPhase</param>
         /// <returns>Return an authenticationModel with JTW Bearer Token in <paramref name="authenticationModel"/>.<paramref name="Token"/> as string</returns>
-        public async ValueTask<AuthenticationModel> GetTokenAsync(TokenRequestModel model)
+        public async Task<AuthenticationModel> GetTokenAsync(TokenRequestModel model)
         {
             var authenticationModel = new AuthenticationModel();
             var user = await _userManager.FindByEmailAsync(model.Email);
@@ -105,7 +105,7 @@ namespace Animals.Core.Services
         /// </summary>
         /// <param name="model">Register model asks providing via HttpGet body required informations for registering</param>
         /// <returns>String result</returns>
-        public async ValueTask<string> RegisterUserAsync(RegisterModel model)
+        public async Task<string> RegisterUserAsync(RegisterModel model)
         {
             var user = new ApplicationUser
             {
@@ -131,7 +131,7 @@ namespace Animals.Core.Services
         /// </summary>
         /// <param name="user">Logging user</param>
         /// <returns>JWT Token for current loggin in user</returns>
-        private async ValueTask<JwtSecurityToken> CreateJwtToken(ApplicationUser user)
+        private async Task<JwtSecurityToken> CreateJwtToken(ApplicationUser user)
         {
             var userClaims = await _userManager.GetClaimsAsync(user);
             var roles = await _userManager.GetRolesAsync(user);
@@ -152,7 +152,7 @@ namespace Animals.Core.Services
             .Union(roleClaims);
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key));
-            var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+            var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha512);
 
             var jwtSecurityToken = new JwtSecurityToken(
                 issuer: _jwt.Issuer,

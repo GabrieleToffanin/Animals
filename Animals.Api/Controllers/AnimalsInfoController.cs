@@ -21,16 +21,15 @@ namespace Animals.Api.Controllers
         }
 
         [HttpGet]
-
-        public async ValueTask<ActionResult<IAsyncEnumerable<Animal>>> FetchAll()
+        public async Task<ActionResult<IAsyncEnumerable<Animal>>> FetchAll()
         {
             return Ok(_animals.GetAllAnimals());
         }
 
-        [HttpPost("/CreateAnimal")]
+        [HttpPost("CreateAnimal")]
         //[ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async ValueTask<IActionResult> Create([FromBody]AnimalDTO animal)
+        public async Task<IActionResult> Create([FromBody]AnimalDTO animal)
         {
             
             var result = await _animals.Create(animal);
@@ -38,10 +37,10 @@ namespace Animals.Api.Controllers
             return result ? Ok() : BadRequest();
         }
 
-        [HttpDelete("/DeleteAnimal/{id?}")]
+        [HttpDelete("Animal/{id?}")]
         //[ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
-        public async ValueTask<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             
             var result = await _animals.Delete(id);
@@ -50,10 +49,10 @@ namespace Animals.Api.Controllers
         }
         
         //ToDo, improve the logic, may be a good idea leaving the Animal.Id prop into the DTO for cleaner implementation ?
-        [HttpPut("/UpdateAnimal")]
+        [HttpPut("UpdateAnimal")]
         [Authorize(Roles = "Administrator")]
         //[ValidateAntiForgeryToken]
-        public async ValueTask<IActionResult> Update([FromBody]AnimalDTO updatedContet)
+        public async Task<IActionResult> Update([FromBody]AnimalDTO updatedContet)
         {
             await _animals.Delete(updatedContet.Id);
             await _animals.Create(updatedContet);

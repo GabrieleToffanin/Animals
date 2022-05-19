@@ -15,21 +15,21 @@ namespace Animals.Api.Controllers
         }
 
         [HttpPost("/Register")]
-        public async ValueTask<ActionResult<string>> Register(RegisterModel model)
+        public async Task<ActionResult<string>> Register(RegisterModel model)
         {
             var result = await _userService.RegisterUserAsync(model);
             return Ok(result);
         }
 
         [HttpPost("/Token")]
-        public async ValueTask<IActionResult> GetToken(TokenRequestModel model)
+        public async Task<IActionResult> GetToken(TokenRequestModel model)
         {
             var result = await _userService.GetTokenAsync(model);
             return Ok(result);
         }
 
         [HttpPost("/AddRole")]
-        public async ValueTask<IActionResult> AddRole(AddRoleModel model)
+        public async Task<IActionResult> AddRole(AddRoleModel model)
         {
             var result = await _userService.AddRoleAsync(model);
             return Ok(result);

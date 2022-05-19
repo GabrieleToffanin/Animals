@@ -29,14 +29,14 @@ namespace Animals.Core.Logic
             _animalRepo = animalsRepo;
             _mapService = mapService;
         }
-        public async ValueTask<bool> Create(AnimalDTO animal)
+        public async Task<bool> Create(AnimalDTO animal)
         {
             var currentAnimal = _mapService.MapFrom<AnimalDTO, Animal>(animal);
             var result = await _animalRepo.Create(currentAnimal);
             return result;
         }
 
-        public async ValueTask<bool> Delete(int id)
+        public async Task<bool> Delete(int id)
         {
             return await _animalRepo.Delete(id);
         }
@@ -51,7 +51,7 @@ namespace Animals.Core.Logic
         //and leads to a cleaner implementation (idea! : obfuscate ID directly 
         //in the UWP.Client UI, having the ID in the models for the deserialization, that would give me 
         //a direct Bind to the Animal.Id provided by DB)
-        public async ValueTask<bool> Update(Animal animal)
+        public async Task<bool> Update(Animal animal)
         {
             return await _animalRepo.Update(animal);
         }

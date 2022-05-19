@@ -18,7 +18,7 @@ namespace Animals.EF.Repository
             _context = context;
         }
 
-        public async ValueTask<bool> Create(Specie specie)
+        public async Task<bool> Create(Specie specie)
         {
             await _context.AddAsync(specie);
 
@@ -27,23 +27,23 @@ namespace Animals.EF.Repository
             return true;
         }
 
-        public ValueTask<bool> Delete(int id)
+        public Task<bool> Delete(int id)
         {
             throw new NotImplementedException();
         }
 
-        public async ValueTask<IQueryable<Specie>> FetchAll()
+        public async Task<IQueryable<Specie>> FetchAll()
         {
             return (await _context.Species.Include(x => x.Animals).AsNoTracking().ToListAsync()).AsQueryable();
         }
 
-        public async ValueTask<Specie?> GetById(int id)
+        public async Task<Specie?> GetById(int id)
         {
             return _context.Species.Where(x => x.SpecieId == id)
                                    .Select(x => x).FirstOrDefault();
         }
 
-        public async ValueTask<bool> Update(Specie animal)
+        public async Task<bool> Update(Specie animal)
         {
             var result = await _context.Species.Where(b => b.SpecieId == animal.SpecieId).FirstOrDefaultAsync();
             if (result == null)
@@ -55,10 +55,10 @@ namespace Animals.EF.Repository
 
         }
 
-        public async ValueTask<Specie> GetBySpecieName(string specieName)
+        public async Task<Specie> GetBySpecieName(string specieName)
             => await _context.Species.Where(x => x.SpecieName == specieName!).FirstOrDefaultAsync();
 
-        public async ValueTask<IEnumerable<Specie>> GetAnimalsFromSpecieName(Func<Specie, bool> filter)
+        public async Task<IEnumerable<Specie>> GetAnimalsFromSpecieName(Func<Specie, bool> filter)
         {
             return (await _context.Species.Include(p => p.Animals)
                                           .AsNoTracking()

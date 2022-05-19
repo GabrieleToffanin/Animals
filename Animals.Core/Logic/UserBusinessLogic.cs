@@ -17,17 +17,17 @@ namespace Animals.Core.Logic
             _userService = userService;
         }
 
-        public async ValueTask<string> AddRoleAsync(AddRoleModel model)
+        public async Task<string> AddRoleAsync(AddRoleModel model)
         {
             return await _userService.AddRoleAsync(model);
         }
 
-        public async ValueTask<AuthenticationModel> GetTokenAsync(TokenRequestModel model)
+        public async Task<AuthenticationModel> GetTokenAsync(TokenRequestModel model)
         {
             return await _userService.GetTokenAsync(model);
         }
 
-        public async ValueTask<string> RegisterUserAsync(RegisterModel model)
+        public async Task<string> RegisterUserAsync(RegisterModel model)
         {
             
             return await _userService.RegisterUserAsync(model);

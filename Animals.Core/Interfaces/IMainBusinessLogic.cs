@@ -11,8 +11,8 @@ namespace Animals.Core.Interfaces
     public interface IMainBusinessLogic
     {
         IAsyncEnumerable<AnimalDTO> GetAllAnimals();
-        ValueTask<bool> Delete(int id);
-        ValueTask<bool> Create(AnimalDTO animal);
-        ValueTask<bool> Update(Animal animal);
+        Task<bool> Delete(int id);
+        Task<bool> Create(AnimalDTO animal);
+        Task<bool> Update(Animal animal);
     }
 }
