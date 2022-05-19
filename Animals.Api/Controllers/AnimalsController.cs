@@ -21,18 +21,11 @@ namespace Animals.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IAsyncEnumerable<AnimalDTO>>> FetchAll()
+        public async Task<ActionResult<IAsyncEnumerable<AnimalDTO>>> FetchAll([FromQuery] string? startsWith)
         {
-            return Ok(_animals.GetAllAnimals());
+            return Ok(_animals.GetAnimalsByFilter(x => x.Name.ToLowerInvariant().Contains((startsWith ?? "").ToLowerInvariant(),StringComparison.InvariantCulture)));
         }
 
-        [HttpGet("{startsWith}")]
-        public async Task<ActionResult<IAsyncEnumerable<AnimalDTO>>> FetchAnimalsStartingWith([FromRoute]string startsWith)
-        {
-            return Ok(_animals.GetAnimalsByFilter(x => x.Name!.ToLowerInvariant().Contains(startsWith.ToLowerInvariant(), StringComparison.InvariantCulture)));
-        }
-
-        
         [HttpPost]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([FromBody]AnimalDTO animal)

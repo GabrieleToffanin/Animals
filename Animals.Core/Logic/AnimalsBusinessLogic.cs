@@ -14,12 +14,6 @@ namespace Animals.Core.Logic
         private readonly IAnimalRepository _animalRepo;
         private readonly IMappingService _mapService;
 
-
-
-        //Actual Problem, Creating and Auto-Update of One To Many relationship
-        //with Specie(One) and Many(Animal), no clue atm.
-
-        
         public AnimalsBusinessLogic(IAnimalRepository animalsRepo,
                                     IMappingService mapService)
         {
