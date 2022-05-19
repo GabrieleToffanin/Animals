@@ -23,6 +23,7 @@ namespace Animals.EF.Repository
             return (await _context.Animals
                 .Include(x => x.Specie)
                 .ToListAsync())
+                .OrderBy(x => x.Name)
                 .AsQueryable();
         }
 

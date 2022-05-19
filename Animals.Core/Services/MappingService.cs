@@ -65,7 +65,7 @@ namespace Animals.Core.Services
                 });
 
 
-        
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public TAsked MapFrom<TStart, TAsked>(TStart item) where TStart : class
                                                            where TAsked : class
             => _mapper?.Map<TAsked>(item) ?? throw new UnableToPerfomMappingException("Provided data has no mapping configuration, or bad data provided");
