@@ -15,6 +15,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,9 +42,9 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Animals", Version = "v1" });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
+        Description = @"JWT Authorization header using the Bearer scheme. <br>
                       Enter 'Bearer' [space] and then your token in the text input below.
-                      \r\n\r\nExample: 'Bearer 12345abcdef'",
+                      <br>Example: 'Bearer 12345abcdef'",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
@@ -88,7 +89,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration["ConnectionStrings:LocalSqlServer"],
-    migrationAsm => migrationAsm.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+    migrationAsm => migrationAsm.MigrationsAssembly("Animals.Api")));
 
 builder.Services.AddScoped<IMappingService, MappingService>();
 builder.Services.AddScoped<IMainBusinessLogic, AnimalsBusinessLogic>();
@@ -165,6 +166,7 @@ using (var scope = app.Services.CreateScope())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllerRoute(
     name: "Default",
     pattern: "{controller}/{action}/{id?}");

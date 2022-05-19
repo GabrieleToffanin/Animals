@@ -1,6 +1,7 @@
 ﻿using Animals.Core.Interfaces;
 using Animals.Core.Models;
 using Animals.Core.Models.DTOInputModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,12 +18,14 @@ namespace Animals.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator")]
         public async ValueTask<ActionResult<IAsyncEnumerable<SpecieDTO>>> Index()
         {
             return Ok(_context.FetchSpecies());
         }
 
         [HttpGet("/GetAnimalsBySpecieName/{specieName}")]
+        [Authorize(Roles = "Administrator")]
         public async ValueTask<ActionResult<IAsyncEnumerable<SpecieDTO>>> GetAnimalsBySpecieName(string specieName)
         {
             return Ok(_context.FetchSpeciesWithFilter((x => x.SpecieName == specieName)));

@@ -28,6 +28,7 @@ namespace Animals.Api.Controllers
         }
 
         [HttpPost("/CreateAnimal")]
+        //[ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
         public async ValueTask<IActionResult> Create([FromBody]AnimalDTO animal)
         {
@@ -38,6 +39,7 @@ namespace Animals.Api.Controllers
         }
 
         [HttpDelete("/DeleteAnimal/{id?}")]
+        //[ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrator")]
         public async ValueTask<IActionResult> Delete(int id)
         {
@@ -50,6 +52,7 @@ namespace Animals.Api.Controllers
         //ToDo, improve the logic, may be a good idea leaving the Animal.Id prop into the DTO for cleaner implementation ?
         [HttpPost("/UpdateAnimal")]
         [Authorize(Roles = "Administrator")]
+        //[ValidateAntiForgeryToken]
         public async ValueTask<IActionResult> Update([FromBody]AnimalDTO updatedContet)
         {
             await _animals.Delete(updatedContet.Id);

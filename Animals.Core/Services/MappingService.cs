@@ -6,6 +6,7 @@ using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,7 +37,7 @@ namespace Animals.Core.Services
                         });
                     cfg.CreateMap<Specie, SpecieDTO>()
                         .ForMember(cfg => cfg.Animals, opt => opt.Ignore())
-                        .AfterMap((src, dest, rc) =>
+                        .AfterMap((src, dest ) =>
                         {
                             foreach (var animal in src.Animals)
                             {
@@ -46,7 +47,7 @@ namespace Animals.Core.Services
                 });
 
 
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public TAsked MapFrom<TStart, TAsked>(TStart item) where TStart : class
                                                            where TAsked : class
             => _mapper?.Map<TAsked>(item) ?? throw new UnableToPerfomMappingException("Provided data has no mapping configuration, or bad data provided");
