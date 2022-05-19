@@ -6,3 +6,4 @@
 <li>Using RepositoryPattern for better project management<br></li>
 <li>AuthO2 implemented with JWT bearer Token<br></li>
 <li>Users are managed by AspNet.Identity<br></li>
+<li>(Not so sure about Auth and Identity implementation)</li> 
