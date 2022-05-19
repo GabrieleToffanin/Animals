@@ -15,20 +15,14 @@ namespace Animals.Client.Helpers
     //IAPICallerService 
     public class JsonSerializerHelper : IJsonSerializer
     {
-        
-        private readonly IAPICallerService _apiService;
-
-        public JsonSerializerHelper(IAPICallerService apiService)
+        public JsonSerializerHelper()
         {
             
-            _apiService = apiService;
+            
         }
-        public async ValueTask<IEnumerable<Animal>> FetchAnimals()
+        public async ValueTask<IEnumerable<Animal>> FetchAnimals(string stringJson)
         {
-            
-                var strinJson = await _apiService.FetchAnimals();
-
-                var content = JsonConvert.DeserializeObject<IEnumerable<Animal>>(strinJson);
+            var content = JsonConvert.DeserializeObject<IEnumerable<Animal>>(stringJson);
                 if (content is null)
                     return Enumerable.Empty<Animal>();
 

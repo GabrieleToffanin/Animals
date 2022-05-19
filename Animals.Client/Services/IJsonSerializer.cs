@@ -9,6 +9,6 @@ namespace Animals.Client.Services
 {
     public interface IJsonSerializer
     {
-        ValueTask<IEnumerable<Animal>> FetchAnimals();
+        ValueTask<IEnumerable<Animal>> FetchAnimals(string json);
     }
 }

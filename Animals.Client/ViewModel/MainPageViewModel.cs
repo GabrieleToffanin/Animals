@@ -17,6 +17,7 @@ namespace Animals.Client.ViewModel
         //Actually this service is violating S principle 
         //see comment in Helpers/JSonSerializerHelper.cs
         private readonly IJsonSerializer _serializer;
+        private readonly IAPICallerService _apiCallerService;
 
         public MainPageViewModel(IJsonSerializer serializer)
         {
@@ -37,8 +38,10 @@ namespace Animals.Client.ViewModel
 
         private async Task LoadAnimalCollection()
         {
-            var content = await _serializer.FetchAnimals();
-            foreach (var item in content)
+            var content = await Task.Run(async () => await _apiCallerService.FetchAnimals())
+                                    .ContinueWith(async x => await _serializer.FetchAnimals(await x));
+
+            foreach (var item in await content)
                 Animals.Add(item);
         } 
 
