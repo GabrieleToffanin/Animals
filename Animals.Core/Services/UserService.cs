@@ -15,6 +15,10 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Animals.Core.Services
 {
+    /// <summary>
+    /// UserService class is responsible of managing UserData in API Context exposes methods 
+    /// for JWT related Authentication
+    /// </summary>
     public class UserService : IUserService
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -28,6 +32,12 @@ namespace Animals.Core.Services
             _jwt = jwt.Value;
         }
 
+        /// <summary>
+        /// Adds a role to already registered User
+        /// This method must be possibily used by the Api-Developer with CreatorRole
+        /// </summary>
+        /// <param name="model">AddRoleModel request for Registered User</param>
+        /// <returns>Operation Result Message</returns>
         public async ValueTask<string> AddRoleAsync(AddRoleModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
@@ -52,6 +62,13 @@ namespace Animals.Core.Services
             return $"Incorrect Credentials for user {user.Email}.";
         }
 
+        /// <summary>
+        /// This method has to be called during Log-In phase, 
+        /// it provides JWT Bearer Token, so the Client-User 
+        /// can insert the token in Header
+        /// </summary>
+        /// <param name="model">Token Request Model, LoginPhase</param>
+        /// <returns>Return an authenticationModel with JTW Bearer Token in <paramref name="authenticationModel"/>.<paramref name="Token"/> as string</returns>
         public async ValueTask<AuthenticationModel> GetTokenAsync(TokenRequestModel model)
         {
             var authenticationModel = new AuthenticationModel();
@@ -83,7 +100,11 @@ namespace Animals.Core.Services
             return authenticationModel;
         }
 
-
+        /// <summary>
+        /// Method who allows to register and save user to DB
+        /// </summary>
+        /// <param name="model">Register model asks providing via HttpGet body required informations for registering</param>
+        /// <returns>String result</returns>
         public async ValueTask<string> RegisterUserAsync(RegisterModel model)
         {
             var user = new ApplicationUser

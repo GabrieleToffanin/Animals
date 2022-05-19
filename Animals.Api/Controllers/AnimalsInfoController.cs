@@ -50,7 +50,7 @@ namespace Animals.Api.Controllers
         }
         
         //ToDo, improve the logic, may be a good idea leaving the Animal.Id prop into the DTO for cleaner implementation ?
-        [HttpPost("/UpdateAnimal")]
+        [HttpPut("/UpdateAnimal")]
         [Authorize(Roles = "Administrator")]
         //[ValidateAntiForgeryToken]
         public async ValueTask<IActionResult> Update([FromBody]AnimalDTO updatedContet)
