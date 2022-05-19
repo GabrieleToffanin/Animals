@@ -11,23 +11,23 @@ namespace Animals.Api.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
-    public class AnimalsInfoController : ControllerBase
+    public class AnimalsController : ControllerBase
     {
         private readonly IMainBusinessLogic _animals;
 
-        public AnimalsInfoController(IMainBusinessLogic animals)
+        public AnimalsController(IMainBusinessLogic animals)
         {
             _animals = animals;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IAsyncEnumerable<Animal>>> FetchAll()
+        public async Task<ActionResult<IAsyncEnumerable<AnimalDTO>>> FetchAll()
         {
             return Ok(_animals.GetAllAnimals());
         }
 
-        [HttpPost("CreateAnimal")]
-        //[ValidateAntiForgeryToken]
+        
+        [HttpPost]
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> Create([FromBody]AnimalDTO animal)
         {
@@ -37,10 +37,10 @@ namespace Animals.Api.Controllers
             return result ? Ok() : BadRequest();
         }
 
-        [HttpDelete("Animal/{id?}")]
-        //[ValidateAntiForgeryToken]
+        
+        [HttpDelete("{id?}")]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete([FromRoute]int id)
         {
             
             var result = await _animals.Delete(id);
@@ -48,14 +48,12 @@ namespace Animals.Api.Controllers
             return result ? Ok() : BadRequest();
         }
         
-        //ToDo, improve the logic, may be a good idea leaving the Animal.Id prop into the DTO for cleaner implementation ?
-        [HttpPut("UpdateAnimal")]
+        
+        [HttpPut("{id}")]
         [Authorize(Roles = "Administrator")]
-        //[ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update([FromBody]AnimalDTO updatedContet)
+        public async Task<IActionResult> Update([FromRoute]int id,[FromBody]AnimalUpdateRequest updatedContet)
         {
-            await _animals.Delete(updatedContet.Id);
-            await _animals.Create(updatedContet);
+            await _animals.Update(id, updatedContet);
 
             return Ok();
         }

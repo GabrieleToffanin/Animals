@@ -29,6 +29,7 @@ namespace Animals.Api.Controllers
         }
 
         [HttpPost("/AddRole")]
+        
         public async Task<IActionResult> AddRole(AddRoleModel model)
         {
             var result = await _userService.AddRoleAsync(model);

@@ -44,16 +44,21 @@ namespace Animals.Core.Logic
         public async IAsyncEnumerable<AnimalDTO> GetAllAnimals()
         {
             foreach (var item in await _animalRepo.FetchAll())
-                yield return _mapService.MapFrom<Animal,AnimalDTO>(item);
+                yield return _mapService.MapFrom<Animal, AnimalDTO>(item);
         }
         //Actually leaving Animal.Id property into AnimalDTO escapes
         //the "problem" of providing the id via Controller Endpoint 
         //and leads to a cleaner implementation (idea! : obfuscate ID directly 
         //in the UWP.Client UI, having the ID in the models for the deserialization, that would give me 
         //a direct Bind to the Animal.Id provided by DB)
-        public async Task<bool> Update(Animal animal)
+        public async Task<bool> Update(int id, AnimalUpdateRequest animal)
         {
-            return await _animalRepo.Update(animal);
+            var currentAnimal = _mapService.MapFrom<AnimalUpdateRequest, Animal>(animal);
+            var result = await Task.Run(async () => await _animalRepo.Delete(id))
+                                   .ContinueWith(async (x) => await _animalRepo.Create(currentAnimal));
+
+
+            return await result;
         }
     }
 }

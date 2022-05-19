@@ -13,6 +13,6 @@ namespace Animals.Core.Interfaces
         IAsyncEnumerable<AnimalDTO> GetAllAnimals();
         Task<bool> Delete(int id);
         Task<bool> Create(AnimalDTO animal);
-        Task<bool> Update(Animal animal);
+        Task<bool> Update(int id, AnimalUpdateRequest animal);
     }
 }

@@ -24,17 +24,35 @@ namespace Animals.Core.Services
                 {
                     cfg.CreateMap<AnimalDTO, Animal>()
                         .ForMember(member => member.Specie, opt => opt.MapFrom(x => x));
+
                     cfg.CreateMap<Animal, AnimalDTO>()
                         .ForMember(member => member.Specie, opt => opt.MapFrom(x => x.Specie.SpecieName));
+
+                    cfg.CreateMap<AnimalUpdateRequest, Animal>()
+                        .ForMember(member => member.Specie , opt => opt.MapFrom(x => x));
+
+                    cfg.CreateMap<Animal, AnimalUpdateRequest>()
+                        .ForMember(member => member.Specie, opt => opt.MapFrom(x => x.Specie.SpecieName));
+
+                    cfg.CreateMap<AnimalUpdateRequest, Specie>()
+                        .ForMember(cfg => cfg.SpecieName, opt => opt.MapFrom(map => map.Specie));
+
+                    cfg.CreateMap<Specie, AnimalUpdateRequest>()
+                        .ForMember(cfg => cfg.Specie, opt => opt.MapFrom(map => map.SpecieName));
+                        
+
                     cfg.CreateMap<AnimalDTO, Specie>()
                         .ForMember(cfg => cfg.SpecieName, opt => opt.MapFrom(map => map.Specie));
+
                     cfg.CreateMap<Specie, Animal>()
                         .ForMember(cfg => cfg.Specie, opt => opt.MapFrom(map => map.SpecieName));
+
                     cfg.CreateMap<Animal, Specie>()
                         .ForMember(cfg => cfg.SpecieName, opt =>
                         {
                             opt.MapFrom(map => map.Specie);
                         });
+
                     cfg.CreateMap<Specie, SpecieDTO>()
                         .ForMember(cfg => cfg.Animals, opt => opt.Ignore())
                         .AfterMap((src, dest ) =>
@@ -47,7 +65,7 @@ namespace Animals.Core.Services
                 });
 
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        
         public TAsked MapFrom<TStart, TAsked>(TStart item) where TStart : class
                                                            where TAsked : class
             => _mapper?.Map<TAsked>(item) ?? throw new UnableToPerfomMappingException("Provided data has no mapping configuration, or bad data provided");
