@@ -20,7 +20,8 @@
 
     <Grid>
         <ListView
-            ItemsSource="{x:Bind ViewModel.Animals}">
+            ItemsSource="{x:Bind ViewModel.Animals}"
+            SelectedItem="{x:Bind ViewModel.SelectedAnimal, Mode=TwoWay}">
 
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="Models:Animal">
