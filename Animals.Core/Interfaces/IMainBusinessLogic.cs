@@ -11,6 +11,7 @@ namespace Animals.Core.Interfaces
     public interface IMainBusinessLogic
     {
         IAsyncEnumerable<AnimalDTO> GetAllAnimals();
+        IAsyncEnumerable<AnimalDTO> GetAnimalsByFilter(Func<Animal, bool> filter);
         Task<bool> Delete(int id);
         Task<bool> Create(AnimalDTO animal);
         Task<bool> Update(int id, AnimalUpdateRequest animal);

@@ -9,5 +9,6 @@ namespace Animals.Core.Interfaces
 {
     public interface IAnimalRepository : IRepository<Animal>
     {
+        Task<IEnumerable<Animal>> GetStartingWithAnimals(Func<Animal, bool> filter);
     }
 }

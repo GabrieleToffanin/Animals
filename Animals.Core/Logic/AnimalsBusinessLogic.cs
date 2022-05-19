@@ -12,7 +12,6 @@ namespace Animals.Core.Logic
     public class AnimalsBusinessLogic : IMainBusinessLogic
     {
         private readonly IAnimalRepository _animalRepo;
-        private readonly ISpecieRepository _specieRepository;
         private readonly IMappingService _mapService;
 
 
@@ -22,10 +21,8 @@ namespace Animals.Core.Logic
 
         
         public AnimalsBusinessLogic(IAnimalRepository animalsRepo,
-            ISpecieRepository speciesRepo, 
-            IMappingService mapService)
+                                    IMappingService mapService)
         {
-            _specieRepository = speciesRepo;
             _animalRepo = animalsRepo;
             _mapService = mapService;
         }
@@ -46,6 +43,15 @@ namespace Animals.Core.Logic
             foreach (var item in await _animalRepo.FetchAll())
                 yield return _mapService.MapFrom<Animal, AnimalDTO>(item);
         }
+
+        public async IAsyncEnumerable<AnimalDTO> GetAnimalsByFilter(Func<Animal, bool> filter)
+        {
+            foreach (var animal in await _animalRepo.GetStartingWithAnimals(filter))
+            {
+                yield return _mapService.MapFrom<Animal, AnimalDTO>(animal);
+            }
+        }
+
         //Actually leaving Animal.Id property into AnimalDTO escapes
         //the "problem" of providing the id via Controller Endpoint 
         //and leads to a cleaner implementation (idea! : obfuscate ID directly 
@@ -55,7 +61,7 @@ namespace Animals.Core.Logic
         {
             var currentAnimal = _mapService.MapFrom<AnimalUpdateRequest, Animal>(animal);
             var result = await Task.Run(async () => await _animalRepo.Delete(id))
-                                   .ContinueWith(async (x) => await _animalRepo.Create(currentAnimal));
+                                             .ContinueWith(async (x) => await _animalRepo.Create(currentAnimal));
 
 
             return await result;

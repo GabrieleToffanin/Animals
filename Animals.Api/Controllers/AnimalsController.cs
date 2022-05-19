@@ -26,6 +26,12 @@ namespace Animals.Api.Controllers
             return Ok(_animals.GetAllAnimals());
         }
 
+        [HttpGet("{startsWith}")]
+        public async Task<ActionResult<IAsyncEnumerable<AnimalDTO>>> FetchAnimalsStartingWith([FromRoute]string startsWith)
+        {
+            return Ok(_animals.GetAnimalsByFilter(x => x.Name!.ToLowerInvariant().Contains(startsWith.ToLowerInvariant(), StringComparison.InvariantCulture)));
+        }
+
         
         [HttpPost]
         [Authorize(Roles = "Administrator")]

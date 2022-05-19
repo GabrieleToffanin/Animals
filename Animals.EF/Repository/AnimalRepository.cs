@@ -87,6 +87,16 @@ namespace Animals.EF.Repository
                    .Select(x => x).FirstOrDefault();
         }
 
+        public async Task<IEnumerable<Animal>> GetStartingWithAnimals(Func<Animal, bool> filter)
+        {
+            var result = (await _context.Animals.Include(x => x.Specie)
+                                                         .AsNoTracking()
+                                                         .ToListAsync())
+                                                         .Where(filter)
+                                                         .OrderBy(x => x.Name);
 
+            return result ?? Enumerable.Empty<Animal>();
+                                                         
+        }
     }
 }
