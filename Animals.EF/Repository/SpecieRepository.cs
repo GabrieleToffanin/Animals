@@ -27,9 +27,15 @@ namespace Animals.EF.Repository
             return true;
         }
 
-        public Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var toDeleteSpecie = await _context.Species.Where(x => x.SpecieId == id)
+                                                              .FirstOrDefaultAsync();
+            if (toDeleteSpecie != null)
+                return false;
+
+            _context?.Remove(toDeleteSpecie);
+            return true;
         }
 
         public async Task<IQueryable<Specie>> FetchAll()
@@ -37,10 +43,11 @@ namespace Animals.EF.Repository
             return (await _context.Species.Include(x => x.Animals).AsNoTracking().ToListAsync()).AsQueryable();
         }
 
-        public async Task<Specie?> GetById(int id)
+        public async Task<Specie> GetById(int id)
         {
-            return _context.Species.Where(x => x.SpecieId == id)
-                                   .Select(x => x).FirstOrDefault();
+            return await _context.Species.Where(x => x.SpecieId == id)
+                                         .Select(x => x)
+                                         .FirstOrDefaultAsync();
         }
 
         public async Task<bool> Update(Specie animal)
