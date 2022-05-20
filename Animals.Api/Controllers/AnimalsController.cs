@@ -21,13 +21,9 @@ namespace Animals.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IAsyncEnumerable<AnimalDTO>>> FetchAll([FromQuery] string? startsWith)
+        public async Task<ActionResult<IAsyncEnumerable<AnimalDTO>>> FetchAll([FromQuery] string? search)
         {
-
-
-            return startsWith != null
-                ? Ok(_animals.GetAnimalsByFilter(x => x.Name.ToLowerInvariant().Contains((startsWith).ToLowerInvariant(), StringComparison.InvariantCulture)))
-                : Ok(_animals.GetAllAnimals());
+            return Ok(_animals.GetAllAnimals(search ?? ""));
         }
 
         [HttpPost]

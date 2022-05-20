@@ -40,13 +40,16 @@ namespace Animals.EF.Repository
 
         public async Task<IQueryable<Specie>> FetchAll()
         {
-            return (await _context.Species.Include(x => x.Animals).AsNoTracking().ToListAsync()).AsQueryable();
+            return (await _context.Species.Include(x => x.Animals)
+                                          .AsNoTracking()
+                                          .ToListAsync())
+                                          .OrderBy(x => x.SpecieName)
+                                          .AsQueryable();
         }
 
         public async Task<Specie> GetById(int id)
         {
             return await _context.Species.Where(x => x.SpecieId == id)
-                                         .Select(x => x)
                                          .FirstOrDefaultAsync();
         }
 

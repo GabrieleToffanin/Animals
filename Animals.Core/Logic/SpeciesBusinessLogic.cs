@@ -19,9 +19,9 @@ namespace Animals.Core.Logic
             _specieRepository = repository;
             _mappingService = mappingService;
         }
-        public async IAsyncEnumerable<SpecieDTO> FetchSpecies()
+        public async IAsyncEnumerable<SpecieDTO> FetchSpecies(string filter)
         {
-            foreach (var item in await _specieRepository.FetchAll())
+            foreach (var item in await _specieRepository.GetAnimalsFromSpecieName( x => x.SpecieName.ToLowerInvariant().Contains(filter.ToLowerInvariant(), StringComparison.InvariantCulture)))
                 yield return _mappingService.MapFrom<Specie, SpecieDTO>(item);
         }
 

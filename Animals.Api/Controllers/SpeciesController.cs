@@ -19,11 +19,9 @@ namespace Animals.Api.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Administrator")]
-        public async Task<ActionResult<IAsyncEnumerable<SpecieDTO>>> Index([FromQuery]string? specieName)
+        public async Task<ActionResult<IAsyncEnumerable<SpecieDTO>>> Index([FromQuery]string? search)
         {
-            return specieName != null 
-                ? Ok(_context.FetchSpeciesWithFilter(x => x.SpecieName.ToLowerInvariant() == specieName.ToLowerInvariant()))
-                : Ok(_context.FetchSpecies());
+            return Ok(_context.FetchSpecies(search ?? ""));
         }
     }
 }

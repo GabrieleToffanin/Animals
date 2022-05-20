@@ -32,18 +32,12 @@ namespace Animals.Core.Logic
             return await _animalRepo.Delete(id);
         }
 
-        public async IAsyncEnumerable<AnimalDTO> GetAllAnimals()
+        public async IAsyncEnumerable<AnimalDTO> GetAllAnimals(string? search)
         {
-            foreach (var item in await _animalRepo.FetchAll())
-                yield return _mapService.MapFrom<Animal, AnimalDTO>(item);
-        }
-
-        public async IAsyncEnumerable<AnimalDTO> GetAnimalsByFilter(Func<Animal, bool> filter)
-        {
-            foreach (var animal in await _animalRepo.GetStartingWithAnimals(filter))
-            {
-                yield return _mapService.MapFrom<Animal, AnimalDTO>(animal);
-            }
+            foreach(var animal in await _animalRepo
+                .GetStartingWithAnimals(x => x!.Name!.ToLowerInvariant()
+                .Contains(search!.ToLowerInvariant(), StringComparison.InvariantCulture)))
+                    yield return _mapService.MapFrom<Animal, AnimalDTO>(animal);
         }
 
         //Actually leaving Animal.Id property into AnimalDTO escapes
@@ -54,6 +48,7 @@ namespace Animals.Core.Logic
         public async Task<bool> Update(int id, AnimalUpdateRequest animal)
         {
             var currentAnimal = _mapService.MapFrom<AnimalUpdateRequest, Animal>(animal);
+
             var result = await Task.Run(async () => await _animalRepo.Delete(id))
                                              .ContinueWith(async (x) => await _animalRepo.Create(currentAnimal));
 

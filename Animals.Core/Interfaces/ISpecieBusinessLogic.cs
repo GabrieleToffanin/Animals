@@ -10,7 +10,7 @@ namespace Animals.Core.Interfaces
 {
     public interface ISpecieBusinessLogic
     {
-        IAsyncEnumerable<SpecieDTO> FetchSpecies();
+        IAsyncEnumerable<SpecieDTO> FetchSpecies(string filter);
         IAsyncEnumerable<SpecieDTO> FetchSpeciesWithFilter(Func<Specie, bool> filter); 
     }
 }
