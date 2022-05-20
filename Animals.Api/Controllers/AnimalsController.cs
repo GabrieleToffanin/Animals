@@ -23,7 +23,11 @@ namespace Animals.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IAsyncEnumerable<AnimalDTO>>> FetchAll([FromQuery] string? search)
         {
+
             return Ok(_animals.GetAllAnimals(search ?? ""));
+
+
+            
         }
 
         [HttpPost]
