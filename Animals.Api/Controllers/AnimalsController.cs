@@ -24,7 +24,7 @@ namespace Animals.Api.Controllers
         public async Task<ActionResult<IAsyncEnumerable<AnimalDTO>>> FetchAll([FromQuery] string? startsWith)
         {
 
-
+            //ToDo, Remove this from here, and put it down BL or DAL
             return startsWith != null
                 ? Ok(_animals.GetAnimalsByFilter(x => x.Name.ToLowerInvariant().Contains((startsWith).ToLowerInvariant(), StringComparison.InvariantCulture)))
                 : Ok(_animals.GetAllAnimals());
