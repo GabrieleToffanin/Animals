@@ -18,8 +18,8 @@ namespace Animals.Client.Helpers
 
             using (var _httpClient = new HttpClient())
             {
-                
-                var response = await _httpClient.GetAsync(new Uri(baseApiUri + "/AnimalsInfo"));
+                _httpClient.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+                var response = await _httpClient.GetAsync(new Uri(baseApiUri + "api/Animals"));
                 response.EnsureSuccessStatusCode();
 
                 return await response.Content.ReadAsStringAsync();

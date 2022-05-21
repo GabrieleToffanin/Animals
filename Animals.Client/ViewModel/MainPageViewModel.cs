@@ -19,9 +19,10 @@ namespace Animals.Client.ViewModel
         private readonly IJsonSerializer _serializer;
         private readonly IAPICallerService _apiCallerService;
 
-        public MainPageViewModel(IJsonSerializer serializer)
+        public MainPageViewModel(IJsonSerializer serializer, IAPICallerService aPICallerService)
         {
             _serializer = serializer;
+            _apiCallerService = aPICallerService;
             _animalLoaderCommand = new AsyncRelayCommand(LoadAnimalCollection);
         }
 
