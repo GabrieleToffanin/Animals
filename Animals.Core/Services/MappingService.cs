@@ -34,12 +34,23 @@ namespace Animals.Core.Services
                     cfg.CreateMap<Animal, AnimalUpdateRequest>()
                         .ForMember(member => member.Specie, opt => opt.MapFrom(x => x.Specie.SpecieName));
 
+                    cfg.CreateMap<AnimalCreationRequest, Animal>()
+                        .ForMember(member => member.Specie, opt => opt.MapFrom(x => x));
+
+                    cfg.CreateMap<Animal, AnimalCreationRequest>()
+                        .ForMember(member => member.Specie, opt => opt.MapFrom(x => x.Specie.SpecieName));
+
                     cfg.CreateMap<AnimalUpdateRequest, Specie>()
                         .ForMember(cfg => cfg.SpecieName, opt => opt.MapFrom(map => map.Specie));
 
                     cfg.CreateMap<Specie, AnimalUpdateRequest>()
                         .ForMember(cfg => cfg.Specie, opt => opt.MapFrom(map => map.SpecieName));
-                        
+                    
+                    cfg.CreateMap<AnimalCreationRequest, Specie>()
+                        .ForMember(member => member.SpecieName, opt => opt.MapFrom(x => x.Specie));
+
+                    cfg.CreateMap<Specie, AnimalCreationRequest>()
+                        .ForMember(member => member.Specie, opt => opt.MapFrom(map => map.SpecieName));
 
                     cfg.CreateMap<AnimalDTO, Specie>()
                         .ForMember(cfg => cfg.SpecieName, opt => opt.MapFrom(map => map.Specie));

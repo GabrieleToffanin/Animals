@@ -9,6 +9,9 @@ namespace Animals.Core.Models.DTOInputModels
     public class AnimalUpdateRequest
     {
         public string? Name { get; set; }
+        public bool? IsProtectedSpecie { get; set; }
+        public int AnimalHistoryAge { get; set; }
+        public int Left { get; set; }
 
         public string Specie { get; set; }
     }

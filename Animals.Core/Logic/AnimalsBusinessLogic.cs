@@ -20,9 +20,9 @@ namespace Animals.Core.Logic
             _animalRepo = animalsRepo;
             _mapService = mapService;
         }
-        public async Task<bool> Create(AnimalDTO animal)
+        public async Task<bool> Create(AnimalCreationRequest animal)
         {
-            var currentAnimal = _mapService.MapFrom<AnimalDTO, Animal>(animal);
+            var currentAnimal = _mapService.MapFrom<AnimalCreationRequest, Animal>(animal);
             var result = await _animalRepo.Create(currentAnimal);
             return result;
         }

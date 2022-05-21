@@ -8,9 +8,12 @@ namespace Animals.Core.Models.Animals
     {
         [Key]
         public int Id { get; set; }
-
-
         public string? Name { get; set; }
+        public bool? IsProtectedSpecie { get; set; }
+        public int AnimalHistoryAge { get; set; }
+        public int Left { get; set; }
+
+
 
 
         public int SpecieId { get; set; }

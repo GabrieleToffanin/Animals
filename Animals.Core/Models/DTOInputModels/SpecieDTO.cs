@@ -13,6 +13,7 @@ namespace Animals.Core.Models.DTOInputModels
             Animals = new HashSet<string>();
         }
         public string SpecieName { get; set; }
+        public string TypeOfBirth { get; set; }
         public ICollection<string> Animals { get; set; }
     }
 }

@@ -32,7 +32,7 @@ namespace Animals.Api.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Administrator")]
-        public async Task<IActionResult> Create([FromBody]AnimalDTO animal)
+        public async Task<IActionResult> Create([FromBody]AnimalCreationRequest animal)
         {
             
             var result = await _animals.Create(animal);

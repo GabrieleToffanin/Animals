@@ -20,6 +20,7 @@ namespace Animals.Core.Models.Animals
         public int SpecieId { get; set; }
 
         public string SpecieName { get; set; }
+        public string? TypeOfBirth { get; set; }
 
         public virtual ICollection<Animal> Animals { get; set; }
     }
