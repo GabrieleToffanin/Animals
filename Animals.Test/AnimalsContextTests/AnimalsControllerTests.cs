@@ -5,9 +5,9 @@ using Animals.Core.Models.DTOInputModels;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 
-namespace Animals.Test
+namespace Animals.Test.AnimalsContextTests
 {
-    public class UnitTest1
+    public class AnimalsControllerTests
     {
         [Fact]
         public async void IndexReturnsJsonWithAListOfAnimals()
