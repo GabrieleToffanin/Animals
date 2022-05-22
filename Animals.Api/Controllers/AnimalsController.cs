@@ -24,14 +24,17 @@ namespace Animals.Api.Controllers
         public async Task<ActionResult<IAsyncEnumerable<AnimalDTO>>> FetchAll([FromQuery] string? search)
         {
 
-            return Ok(_animals.GetAllAnimals(search ?? ""));
+            if (!ModelState.IsValid)
+                return BadRequest("Json object has wrong properties");
 
+
+            return Ok(_animals.GetAllAnimals(search ?? ""));
 
             
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Creator")]
         public async Task<IActionResult> Create([FromBody]AnimalCreationRequest animal)
         {
             
@@ -42,7 +45,7 @@ namespace Animals.Api.Controllers
 
         
         [HttpDelete("{id?}")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Creator")]
         public async Task<IActionResult> Delete([FromRoute]int id)
         {
             
@@ -53,7 +56,7 @@ namespace Animals.Api.Controllers
         
         
         [HttpPut("{id}")]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Creator")]
         public async Task<IActionResult> Update([FromRoute]int id,[FromBody]AnimalUpdateRequest updatedContet)
         {
             await _animals.Update(id, updatedContet);

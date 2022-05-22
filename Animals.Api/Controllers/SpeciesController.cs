@@ -18,7 +18,7 @@ namespace Animals.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Administrator, Creator")]
         public async Task<ActionResult<IAsyncEnumerable<SpecieDTO>>> Index([FromQuery]string? search)
         {
             return Ok(_context.FetchSpecies(search ?? ""));
