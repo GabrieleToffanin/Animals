@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +21,34 @@ namespace Animals.Test.Helper
                 var descriptor = service.SingleOrDefault(
                     d => d.ServiceType ==
                     typeof(DbContextOptions<ApplicationDbContext>));
+
+                service.Remove(descriptor);
+
+
+                service.AddDbContext<ApplicationDbContext>(options =>
+                {
+                    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                });
+
+                var sp = service.BuildServiceProvider();
+
+                using(var scope = sp.CreateScope())
+                {
+                    var scopedServices = scope.ServiceProvider;
+                    var db = scopedServices.GetRequiredService<ApplicationDbContext>();
+                    var logger = scopedServices.GetRequiredService<ILogger<CustomWebApplicationFactory<TStartup>>>();
+
+                    db.Database.EnsureCreated();
+
+                    try
+                    {
+                        Utilities.InitializeDbForTest(db);
+                    }
+                    catch(Exception exception)
+                    {
+                        logger.LogError(exception, "An Error occured while seeding the database with animals. Error{Message}", exception.Message);
+                    }
+                }
             });
         }
     }
