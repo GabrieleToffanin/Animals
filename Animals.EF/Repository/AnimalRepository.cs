@@ -12,8 +12,8 @@ namespace Animals.EF.Repository
 {
     public class AnimalRepository : IAnimalRepository
     {
-        private readonly AnimalDbContext _context;
-        public AnimalRepository(AnimalDbContext context)
+        private readonly ApplicationDbContext _context;
+        public AnimalRepository(ApplicationDbContext context)
         {
             _context = context;
         }

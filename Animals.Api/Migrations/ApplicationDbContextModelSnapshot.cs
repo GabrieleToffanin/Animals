@@ -4,18 +4,16 @@ using Animals.EF.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Animals.Api.Migrations.ApplicationDb
+namespace Animals.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220519072218_LastMigration")]
-    partial class LastMigration
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -23,6 +21,56 @@ namespace Animals.Api.Migrations.ApplicationDb
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Animals.Core.Models.Animals.Animal", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AnimalHistoryAge")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("IsProtectedSpecie")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("Left")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SpecieId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SpecieId");
+
+                    b.ToTable("Animals");
+                });
+
+            modelBuilder.Entity("Animals.Core.Models.Animals.Specie", b =>
+                {
+                    b.Property<int>("SpecieId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SpecieId"), 1L, 1);
+
+                    b.Property<string>("SpecieName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TypeOfBirth")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SpecieId");
+
+                    b.ToTable("Specie");
+                });
 
             modelBuilder.Entity("Animals.Core.Models.User.ApplicationUser", b =>
                 {
@@ -228,6 +276,17 @@ namespace Animals.Api.Migrations.ApplicationDb
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Animals.Core.Models.Animals.Animal", b =>
+                {
+                    b.HasOne("Animals.Core.Models.Animals.Specie", "Specie")
+                        .WithMany("Animals")
+                        .HasForeignKey("SpecieId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Specie");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -277,6 +336,11 @@ namespace Animals.Api.Migrations.ApplicationDb
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Animals.Core.Models.Animals.Specie", b =>
+                {
+                    b.Navigation("Animals");
                 });
 #pragma warning restore 612, 618
         }

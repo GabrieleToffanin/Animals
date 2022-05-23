@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Animals.EF\Animals.EF.csproj" />
   </ItemGroup>
 
+	<ItemGroup>
+		<InternalsVisibleTo Include="Animals.Test"/>
+	</ItemGroup>
+
 </Project>

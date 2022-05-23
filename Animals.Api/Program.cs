@@ -74,11 +74,11 @@ builder.Services.AddSwaggerGen(c =>
 
 
 
-builder.Services.AddDbContext<AnimalDbContext>(
-    options =>
-    options.UseSqlServer(builder.Configuration["ConnectionStrings:LocalSqlServer"],
-    migrationASM => migrationASM.MigrationsAssembly("Animals.Api")),
-    ServiceLifetime.Scoped);
+//builder.Services.AddDbContext<AnimalDbContext>(
+//    options =>
+//    options.UseSqlServer(builder.Configuration["ConnectionStrings:LocalSqlServer"],
+//    migrationASM => migrationASM.MigrationsAssembly("Animals.Api")),
+//    ServiceLifetime.Scoped);
 
 builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
 
@@ -173,3 +173,5 @@ app.MapControllerRoute(
     pattern: "{controller}/{action}/{id?}");
 
 app.Run();
+
+public partial class Program { }
