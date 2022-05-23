@@ -6,6 +6,8 @@ using Animals.Test.Helper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Moq;
+using Newtonsoft.Json;
+using System.Net;
 
 namespace Animals.Test.AnimalsContextTests
 {
@@ -32,6 +34,26 @@ namespace Animals.Test.AnimalsContextTests
             response.EnsureSuccessStatusCode();
             Assert.Equal("application/json; charset=utf-8",
                 response.Content.Headers.ContentType.ToString());
+        }
+
+        [Fact]
+        public async Task Post_CreateAnimal_ActuallyCreates()
+        {
+            var response = await _client.PostAsJsonAsync("api/Animals", JsonConvert.SerializeObject(new AnimalCreationRequest()
+            {
+                Name = "Jaguar",
+                AnimalHistoryAge = 1000,
+                IsProtectedSpecie = true,
+                Left = 100,
+                Specie = "Mammal"
+            }));
+            var contentAfterResponse = await _client.GetAsync("api/Animals");
+            var content = await contentAfterResponse.Content.ReadAsStringAsync();
+
+            var items = JsonConvert.DeserializeObject<IEnumerable<AnimalDTO>>(content);
+            
+            Assert.Equal(System.Net.HttpStatusCode.Unauthorized, response.StatusCode);
+            Assert.Equal(1, items.Count());
         }
     }
 }

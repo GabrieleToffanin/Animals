@@ -12,7 +12,7 @@ namespace Animals.Test.Helper
     {
         public static void InitializeDbForTest(ApplicationDbContext applicationDbContext)
         {
-            applicationDbContext.Animals.AddRange(applicationDbContext.Animals);
+            applicationDbContext.Animals.AddRange(GetSeedingAnimals());
             applicationDbContext.SaveChanges();
         }
 

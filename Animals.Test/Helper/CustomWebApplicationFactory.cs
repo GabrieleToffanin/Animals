@@ -30,7 +30,9 @@ namespace Animals.Test.Helper
                     options.UseInMemoryDatabase("InMemoryDbForTesting");
                 });
 
-                var sp = service.BuildServiceProvider();
+                var sp = service
+                    .AddEntityFrameworkInMemoryDatabase()
+                    .BuildServiceProvider();
 
                 using(var scope = sp.CreateScope())
                 {
