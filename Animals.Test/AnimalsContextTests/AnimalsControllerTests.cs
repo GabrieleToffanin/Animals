@@ -13,6 +13,7 @@ using System.Text;
 
 namespace Animals.Test.AnimalsContextTests
 {
+    //Probably this is more a BDD Test
     public class AnimalsControllerTests : IClassFixture<CustomWebApplicationFactory<AnimalsController>>
     {
         private readonly CustomWebApplicationFactory<AnimalsController> _factory;
