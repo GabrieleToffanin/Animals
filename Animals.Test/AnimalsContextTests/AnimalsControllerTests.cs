@@ -145,8 +145,12 @@ namespace Animals.Test.AnimalsContextTests
 
             var response = await _client.PostAsync("api/Animals", content);
             var contentAfterResponse = await _client.GetAsync("api/Animals");
+            var content = await contentAfterResponse.Content.ReadAsStringAsync();
+
+            var items = JsonConvert.DeserializeObject<IEnumerable<AnimalDTO>>(content);
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+            Assert.True(items.Count() == 2);
         }
     }
 }
